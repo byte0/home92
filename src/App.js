@@ -1,10 +1,11 @@
 import React from 'react';
 import './App.css';
+import { Button } from 'antd-mobile';
 
 function App() {
   return (
     <div>
-      初始化版本
+      <Button type='warning'>点击</Button>
     </div>
   );
 }
