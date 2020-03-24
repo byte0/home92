@@ -2,7 +2,7 @@
   主页
 */
 import React from 'react'
-import { Link, Route } from 'react-router-dom'
+import { Route, Switch, Redirect } from 'react-router-dom'
 import { TabBar } from 'antd-mobile'
 import './index.css'
 
@@ -64,10 +64,10 @@ class Home extends React.Component {
           this.setState({
             selectedTab: item.key,
           });
+          // 通过编程式导航方式控制路由跳转
+          this.props.history.push('/home/' + item.key)
         }}
-      >
-        {item.title}
-      </TabBar.Item>
+      />
     ))
   }
 
@@ -75,10 +75,13 @@ class Home extends React.Component {
     return (
       <div className='home-menu'>
         {/*路由组件显示的位置*/}
-        {/*<Route path='/home/index' component={Index}/>
-        <Route path='/home/find' component={Find}/>
-        <Route path='/home/info' component={Info}/>
-        <Route path='/home/my' component={My}/>*/}
+        <Switch>
+          <Redirect exact from='/home' to='/home/index'/>
+          <Route path='/home/index' component={Index}/>
+          <Route path='/home/find' component={Find}/>
+          <Route path='/home/info' component={Info}/>
+          <Route path='/home/my' component={My}/>
+        </Switch>
         {/*二级菜单路由的链接*/}
         {/*<Link to='/home/index'>首页</Link>
         <Link to='/home/find'>找房</Link>
@@ -86,6 +89,7 @@ class Home extends React.Component {
         <Link to='/home/my'>我的</Link>*/}
 
         <TabBar
+          noRenderContent={true}
           unselectedTintColor="#949494"
           tintColor="#33A3F4"
           barTintColor="white">
