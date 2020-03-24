@@ -1,14 +1,8 @@
 import React from 'react';
 import './App.css';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
-
-function Login () {
-  return <div>Login</div>
-}
-
-function Home () {
-  return <div>Home</div>
-}
+import Home from './views/home/index.js'
+import Login from './views/login/index.js'
 
 function NotFound () {
   return <div>NotFound</div>
