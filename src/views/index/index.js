@@ -2,7 +2,7 @@
   主页模块
 */
 import React from 'react'
-import { Carousel, Flex } from 'antd-mobile'
+import { Carousel, Flex, Grid } from 'antd-mobile'
 import axios from 'axios'
 import './index.scss'
 // 导入菜单图片
@@ -91,10 +91,26 @@ class Index extends React.Component {
     // 渲染租房小组模板
     return (
       <div className="group">
+        {/*标题*/}
         <Flex className="group-title" justify="between">
           <h3>租房小组</h3>
           <span>更多</span>
         </Flex>
+        {/*宫格效果*/}
+        <Grid 
+          data={this.state.groupData}
+          square={false}
+          columnNum={2}
+          renderItem={item => (
+            <Flex className="grid-item" justify="between">
+              <div className="desc">
+                <h3>{item.title}</h3>
+                <p>{item.desc}</p>
+              </div>
+              <img src={`http://api-haoke-dev.itheima.net${item.imgSrc}`} alt="" />
+            </Flex>
+          )}
+        />
       </div>
     )
   }
