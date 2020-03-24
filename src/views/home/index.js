@@ -5,19 +5,10 @@ import React from 'react'
 import { Route, Switch, Redirect } from 'react-router-dom'
 import { TabBar } from 'antd-mobile'
 import './index.css'
-
-function Index () {
-  return <div>index</div>
-}
-function Find () {
-  return <div>Find</div>
-}
-function Info () {
-  return <div>info</div>
-}
-function My () {
-  return <div>my</div>
-}
+import Index from '../index/index.js'
+import Find from '../find/index.js'
+import Info from '../info/index.js'
+import My from '../my/index.js'
 
 class Home extends React.Component {
   constructor(props) {
