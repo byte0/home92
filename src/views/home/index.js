@@ -31,33 +31,27 @@ class Home extends React.Component {
   renderMenuItems = () => {
     const menuData = [{
       key: 'index',
-      title: '首页'
+      title: '首页',
+      icon: 'icon-ind'
     }, {
       key: 'find',
-      title: '找房'
+      title: '找房',
+      icon: 'icon-findHouse'
     }, {
       key: 'info',
-      title: '资讯'
+      title: '资讯',
+      icon: 'icon-myinfo'
     }, {
       key: 'my',
-      title: '我的'
+      title: '我的',
+      icon: 'icon-my'
     }]
     return menuData.map(item => (
       <TabBar.Item
         title={item.title}
         key={item.key}
-        icon={<div style={{
-          width: '22px',
-          height: '22px',
-          background: 'url(https://zos.alipayobjects.com/rmsportal/sifuoDUQdAFKAVcFGROC.svg) center center /  21px 21px no-repeat' }}
-        />
-        }
-        selectedIcon={<div style={{
-          width: '22px',
-          height: '22px',
-          background: 'url(https://zos.alipayobjects.com/rmsportal/iSrlOTqrKddqbOmlvUfq.svg) center center /  21px 21px no-repeat' }}
-        />
-        }
+        icon={<i className={`iconfont ${item.icon}`}></i>}
+        selectedIcon={<i className={`iconfont ${item.icon}`}></i>}
         selected={this.state.selectedTab === item.key}
         onPress={() => {
           // 控制菜单的点击切换
