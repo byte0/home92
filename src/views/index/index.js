@@ -2,7 +2,7 @@
   主页模块
 */
 import React from 'react'
-import { Carousel, Flex, Grid } from 'antd-mobile'
+import { Carousel, Flex, Grid, NavBar, Icon } from 'antd-mobile'
 import axios from 'axios'
 import './index.scss'
 // 导入菜单图片
@@ -153,9 +153,24 @@ class Index extends React.Component {
     )
   }
 
+  renderNav = () => {
+    // 渲染导航栏模板
+    return (
+      <NavBar
+        mode="dark"
+        leftContent="北京"
+        rightContent={[
+          <Icon key="0" type="search" style={{ marginRight: '16px' }} />
+        ]}
+      >首页</NavBar>
+    )
+  }
+
   render () {
     return (
       <div className='index'>
+        {/*导航栏*/}
+        {this.renderNav()}
         {/*轮播图*/}
         {this.renderSwiper()}
         {/*菜单*/}

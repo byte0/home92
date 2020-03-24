@@ -1,9 +1,9 @@
-/* 菜单布局 */
 .index {
   height: 100%;
   overflow-y: auto;
 }
 
+/* 菜单布局 */
 .index-menu {
   padding-top: 10px;
   img {
@@ -17,9 +17,7 @@
   }
 }
 
-
 /* 租房小组布局 */
-
 .group {
   overflow: hidden;
   padding: 0 10px;
@@ -76,34 +74,31 @@
     height: 120px;
     padding: 15px 10px 15px 0;
     border-bottom: 1px solid #e5e5e5;
-  }
-  .news-item:last-child {
-    border: 0;
-  }
-  .imgwrap {
-    float: left;
-    height: 90px;
-    width: 120px;
-  }
-  .img {
-    height: 90px;
-    width: 120px;
-  }
-  .content {
-    overflow: hidden;
-    height: 100%;
-    padding-left: 12px;
-  }
-  .title {
-    margin-bottom: 15px;
-    font-size: 14px;
-  }
-  .info {
-    width: 100%;
-    color: #9c9fa1;
-    font-size: 12px;
-  }
-  .message-title {
-    margin-bottom: 48px;
+    &:last-child {
+      border: 0;
+    }
+    .imgwrap {
+      float: left;
+      height: 90px;
+      width: 120px;
+      .img {
+        height: 90px;
+        width: 120px;
+      }
+    }
+    .content {
+      overflow: hidden;
+      height: 100%;
+      padding-left: 12px;
+      .title {
+        margin-bottom: 15px;
+        font-size: 14px;
+      }
+      .info {
+        width: 100%;
+        color: #9c9fa1;
+        font-size: 12px;
+      }
+    }
   }
 }
