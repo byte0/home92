@@ -1,12 +1,29 @@
 import React from 'react';
 import './App.css';
-import { Button } from 'antd-mobile';
+import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
+
+function Login () {
+  return <div>Login</div>
+}
+
+function Home () {
+  return <div>Home</div>
+}
+
+function NotFound () {
+  return <div>NotFound</div>
+}
 
 function App() {
   return (
-    <div>
-      <Button type='warning'>点击</Button>
-    </div>
+    <BrowserRouter>
+      <Switch>
+        <Redirect exact from='/' to='/home' />
+        <Route path='/login' component={Login}/>
+        <Route path='/home' component={Home}/>
+        <Route component={NotFound}/>
+      </Switch>
+    </BrowserRouter>
   );
 }
 
