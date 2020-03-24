@@ -15,7 +15,8 @@ class Index extends React.Component {
 
   state = {
     swiperData: [],
-    groupData: []
+    groupData: [],
+    newsData: []
   }
 
   // 加载轮播图接口数据
@@ -40,9 +41,18 @@ class Index extends React.Component {
     })
   }
 
+  // 加载最新资讯的数据
+  loadNews = async () => {
+    const res = await axios.get('http://api-haoke-dev.itheima.net/home/news')
+    this.setState({
+      newsData: res.data.body
+    })
+  }
+
   componentDidMount () {
     this.loadSwiper()
     this.loadGroup()
+    this.loadNews()
   }
 
   renderSwiper = () => {
@@ -115,15 +125,45 @@ class Index extends React.Component {
     )
   }
 
+  renderNews = () => {
+    // 渲染最新资讯模板
+    const newsTag = this.state.newsData.map(item => (
+      <div className="news-item" key={item.id}>
+        <div className="imgwrap">
+          <img
+            className="img"
+            src={`http://api-haoke-dev.itheima.net${item.imgSrc}`}
+            alt=""
+          />
+        </div>
+        <Flex className="content" direction="column" justify="between">
+          <h3 className="title">{item.title}</h3>
+          <Flex className="info" justify="between">
+            <span>{item.from}</span>
+            <span>{item.date}</span>
+          </Flex>
+        </Flex>
+      </div>
+    ))  
+    return (
+      <div className="news">
+        <h3 className="group-title">最新资讯</h3>
+        {newsTag}
+      </div>
+    )
+  }
+
   render () {
     return (
-      <div>
+      <div className='index'>
         {/*轮播图*/}
         {this.renderSwiper()}
         {/*菜单*/}
         {this.renderMenu()}
         {/*租房小组*/}
         {this.renderGroup()}
+        {/*最新资讯*/}
+        {this.renderNews()}
       </div>
     )
   }
