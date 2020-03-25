@@ -9,7 +9,7 @@ import request from '../../utils/request.js'
 class City extends React.Component {
 
   state = {
-    cityInfo: []
+    cityInfo: {}
   }
 
   loadData = async () => {
@@ -70,6 +70,28 @@ class City extends React.Component {
     this.loadData()
   }
 
+  renderCityList = () => {
+    // 展示城市列表
+    const { cityObj, cityIndex } = this.state.cityInfo
+    // 遍历对象
+    let tags = []
+    // 由于数据是异步更新的，所有必须进行存在性判断
+    cityIndex && cityIndex.forEach((letter, index) => {
+      // 把分组的字符添加到数组
+      tags.push(<div key={index}>{letter}</div>)
+      let cityList = cityObj[letter]
+      cityList.forEach((city, i) => {
+        // 把分组下的每一个城市名称添加到数组
+        tags.push(<div key={index + '-' + i}>{city.label}</div>)
+      })
+    })
+    return (
+      <div>
+        {tags}
+      </div>
+    )
+  }
+
   render () {
     return (
       <div>
@@ -86,7 +108,7 @@ class City extends React.Component {
           }}
         >城市选择</NavBar>
         {/*城市列表*/}
-
+        {this.renderCityList()}
       </div>
     )
   }
