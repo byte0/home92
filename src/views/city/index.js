@@ -4,8 +4,25 @@
 
 import React from 'react'
 import { NavBar, Icon } from 'antd-mobile'
+import request from '../../utils/request.js'
 
 class City extends React.Component {
+
+  state = {
+    cityList: []
+  }
+
+  loadData = async () => {
+    const res = await request({url: 'area/city', params: {level: 1}})
+    this.setState({
+      cityList: res.body
+    })
+  }
+
+  componentDidMount () {
+    this.loadData()
+  }
+
   render () {
     return (
       <div>
