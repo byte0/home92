@@ -41,6 +41,7 @@ class TestRenderProps extends React.Component {
         <h1>测试组件复用render-props</h1>
         <hr/>
         <AutoSizer renderProps={({width, height}) => {
+          // AutoSizer组件的渲染结果依然是List组件
           return <List width={width} height={height}/>
         }}/>
       </div>

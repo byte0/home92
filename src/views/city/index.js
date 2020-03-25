@@ -7,6 +7,7 @@ import { NavBar, Icon } from 'antd-mobile'
 import request from '../../utils/request.js'
 import {List, AutoSizer} from 'react-virtualized'
 import 'react-virtualized/styles.css'
+import './index.scss'
 
 // 长列表展示假数据
 const list = Array.from(new Array(50)).map((item, index) => {
@@ -109,10 +110,22 @@ class City extends React.Component {
     // style表示每一行模板的样式
     // index表示每一条数据的索引
     return (
-      <div key={key} style={style}>
-        {list[index]}
+      <div key={key} style={style} className="city">
+        <div className="title">A</div>
+        <div className="name">安庆</div>
       </div>
     )
+  }
+
+  calcRowHeight = ({index}) => {
+    // 动态计算每一行列表的高度
+    const { cityObj, cityIndex } = this.state.cityInfo
+    // 获取当前标题字符
+    const letter = cityIndex[index]
+    // 获取当前行列表数据
+    const list = cityObj[letter]
+    // 计算公式：标题的高度 + 每一个城市的高度 * 当前行城市的数量
+    return 36 + 50 * list.length
   }
 
   renderCityList = () => {
@@ -121,11 +134,12 @@ class City extends React.Component {
       <AutoSizer>
         {({width, height}) => {
           // AutoSizer用于获取Lint组件父容器的宽度和高度
-          return <List
+          // 判断状态数据是否存在,只有数据存在了，才可以计算行高
+          return this.state.cityInfo.cityIndex && <List
             width={width}
             height={height - 45}
             rowCount={list.length}
-            rowHeight={30}
+            rowHeight={this.calcRowHeight}
             rowRenderer={this.rowRenderer}
           />
         }}
