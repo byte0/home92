@@ -3,7 +3,7 @@
 */
 import React from 'react'
 import { Carousel, Flex, Grid, NavBar, Icon } from 'antd-mobile'
-import axios from 'axios'
+// import axios from 'axios'
 import './index.scss'
 // 导入菜单图片
 import nav1 from '../../assets/images/nav-1.png'
@@ -11,6 +11,7 @@ import nav2 from '../../assets/images/nav-2.png'
 import nav3 from '../../assets/images/nav-3.png'
 import nav4 from '../../assets/images/nav-4.png'
 import { BASE_IMG_URL } from '../../utils/config.js'
+import request from '../../utils/request.js'
 
 class Index extends React.Component {
 
@@ -28,25 +29,28 @@ class Index extends React.Component {
     //     swiperData: res.data.body
     //   })
     //  })
-    const res = await axios.get('http://api-haoke-dev.itheima.net/home/swiper')
+    // const res = await axios.get('http://api-haoke-dev.itheima.net/home/swiper')
+    const res = await request({url: 'home/swiper'})
     this.setState({
-      swiperData: res.data.body
+      swiperData: res.body
     })
   }
 
   // 加载租房小组的数据
   loadGroup = async () => {
-    const res = await axios.get('http://api-haoke-dev.itheima.net/home/groups')
+    // const res = await axios.get('http://api-haoke-dev.itheima.net/home/groups')
+    const res = await request({url: 'home/groups'})
     this.setState({
-      groupData: res.data.body
+      groupData: res.body
     })
   }
 
   // 加载最新资讯的数据
   loadNews = async () => {
-    const res = await axios.get('http://api-haoke-dev.itheima.net/home/news')
+    // const res = await axios.get('http://api-haoke-dev.itheima.net/home/news')
+    const res = await request({url: 'home/news'})
     this.setState({
-      newsData: res.data.body
+      newsData: res.body
     })
   }
 
