@@ -10,6 +10,7 @@ import nav1 from '../../assets/images/nav-1.png'
 import nav2 from '../../assets/images/nav-2.png'
 import nav3 from '../../assets/images/nav-3.png'
 import nav4 from '../../assets/images/nav-4.png'
+import { BASE_IMG_URL } from '../../utils/config.js'
 
 class Index extends React.Component {
 
@@ -57,7 +58,7 @@ class Index extends React.Component {
 
   renderSwiper = () => {
     const swiperItems = this.state.swiperData.map(item => (
-      <img key={item.id} src={"http://api-haoke-dev.itheima.net" + item.imgSrc} alt=""/>
+      <img key={item.id} src={BASE_IMG_URL + item.imgSrc} alt=""/>
     ))
     return (
       <Carousel dots infinite autoplay>
@@ -117,7 +118,7 @@ class Index extends React.Component {
                 <h3>{item.title}</h3>
                 <p>{item.desc}</p>
               </div>
-              <img src={`http://api-haoke-dev.itheima.net${item.imgSrc}`} alt="" />
+              <img src={`${BASE_IMG_URL}${item.imgSrc}`} alt="" />
             </Flex>
           )}
         />
@@ -132,7 +133,7 @@ class Index extends React.Component {
         <div className="imgwrap">
           <img
             className="img"
-            src={`http://api-haoke-dev.itheima.net${item.imgSrc}`}
+            src={`${BASE_IMG_URL}${item.imgSrc}`}
             alt=""
           />
         </div>
