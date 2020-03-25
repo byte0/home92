@@ -5,6 +5,13 @@
 import React from 'react'
 import { NavBar, Icon } from 'antd-mobile'
 import request from '../../utils/request.js'
+import {List} from 'react-virtualized'
+import 'react-virtualized/styles.css'
+
+// 长列表展示假数据
+const list = Array.from(new Array(20)).map((item, index) => {
+  return `第${index}条数据`
+})
 
 class City extends React.Component {
 
@@ -70,25 +77,50 @@ class City extends React.Component {
     this.loadData()
   }
 
-  renderCityList = () => {
-    // 展示城市列表
-    const { cityObj, cityIndex } = this.state.cityInfo
-    // 遍历对象
-    let tags = []
-    // 由于数据是异步更新的，所有必须进行存在性判断
-    cityIndex && cityIndex.forEach((letter, index) => {
-      // 把分组的字符添加到数组
-      tags.push(<div key={index}>{letter}</div>)
-      let cityList = cityObj[letter]
-      cityList.forEach((city, i) => {
-        // 把分组下的每一个城市名称添加到数组
-        tags.push(<div key={index + '-' + i}>{city.label}</div>)
-      })
-    })
+  // renderCityList = () => {
+  //   // 展示城市列表
+  //   const { cityObj, cityIndex } = this.state.cityInfo
+  //   // 遍历对象
+  //   let tags = []
+  //   // 由于数据是异步更新的，所有必须进行存在性判断
+  //   cityIndex && cityIndex.forEach((letter, index) => {
+  //     // 把分组的字符添加到数组
+  //     tags.push(<div key={index}>{letter}</div>)
+  //     let cityList = cityObj[letter]
+  //     cityList.forEach((city, i) => {
+  //       // 把分组下的每一个城市名称添加到数组
+  //       tags.push(<div key={index + '-' + i}>{city.label}</div>)
+  //     })
+  //   })
+  //   return (
+  //     <div>
+  //       {tags}
+  //     </div>
+  //   )
+  // }
+
+  rowRenderer = ({key, style, index}) => {
+    // 负责渲染每一行数据
+    // key表示每一行信息的唯一标识
+    // style表示每一行模板的样式
+    // index表示每一条数据的索引
     return (
-      <div>
-        {tags}
+      <div key={key} style={style}>
+        {list[index]}
       </div>
+    )
+  }
+
+  renderCityList = () => {
+    // 基于长列表组件进行城市列表的渲染
+    return (
+      <List
+        width={300}
+        height={300}
+        rowCount={list.length}
+        rowHeight={30}
+        rowRenderer={this.rowRenderer}
+      />
     )
   }
 
