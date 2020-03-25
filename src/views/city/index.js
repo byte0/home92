@@ -5,11 +5,11 @@
 import React from 'react'
 import { NavBar, Icon } from 'antd-mobile'
 import request from '../../utils/request.js'
-import {List} from 'react-virtualized'
+import {List, AutoSizer} from 'react-virtualized'
 import 'react-virtualized/styles.css'
 
 // 长列表展示假数据
-const list = Array.from(new Array(20)).map((item, index) => {
+const list = Array.from(new Array(50)).map((item, index) => {
   return `第${index}条数据`
 })
 
@@ -75,6 +75,10 @@ class City extends React.Component {
 
   componentDidMount () {
     this.loadData()
+    // 获取屏幕的宽度和高度
+    // let x = document.documentElement.clientWidth
+    // let y = document.documentElement.clientHeight
+    // console.log(x, y)
   }
 
   // renderCityList = () => {
@@ -114,19 +118,24 @@ class City extends React.Component {
   renderCityList = () => {
     // 基于长列表组件进行城市列表的渲染
     return (
-      <List
-        width={300}
-        height={300}
-        rowCount={list.length}
-        rowHeight={30}
-        rowRenderer={this.rowRenderer}
-      />
+      <AutoSizer>
+        {({width, height}) => {
+          // AutoSizer用于获取Lint组件父容器的宽度和高度
+          return <List
+            width={width}
+            height={height - 45}
+            rowCount={list.length}
+            rowHeight={30}
+            rowRenderer={this.rowRenderer}
+          />
+        }}
+      </AutoSizer>
     )
   }
 
   render () {
     return (
-      <div>
+      <div style={{height: '100%'}}>
         {/*顶部导航*/}
         <NavBar
           mode="light"
