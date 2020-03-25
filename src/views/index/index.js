@@ -164,8 +164,15 @@ class Index extends React.Component {
       <NavBar
         mode="dark"
         leftContent="北京"
+        onLeftClick={() => {
+          // 左侧点击事件
+          // 跳转到城市选择的页面
+          this.props.history.push('/city')
+        }}
         rightContent={[
-          <Icon key="0" type="search" style={{ marginRight: '16px' }} />
+          <Icon onClick={() => {
+            console.log('right click')
+          }} key="0" type="search" style={{ marginRight: '16px' }} />
         ]}
       >首页</NavBar>
     )
