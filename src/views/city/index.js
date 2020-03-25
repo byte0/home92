@@ -10,9 +10,9 @@ import 'react-virtualized/styles.css'
 import './index.scss'
 
 // 长列表展示假数据
-const list = Array.from(new Array(50)).map((item, index) => {
-  return `第${index}条数据`
-})
+// const list = Array.from(new Array(50)).map((item, index) => {
+//   return `第${index}条数据`
+// })
 
 class City extends React.Component {
 
@@ -109,10 +109,19 @@ class City extends React.Component {
     // key表示每一行信息的唯一标识
     // style表示每一行模板的样式
     // index表示每一条数据的索引
+    const { cityObj, cityIndex } = this.state.cityInfo
+    // 获取每一行标题的字符
+    const letter = cityIndex[index]
+    // 获取城市列表数据
+    const list = cityObj[letter]
+    // 动态生成城市列表
+    const cityTags = list.map((item, index) => (
+      <div className="name" key={item.value + index}>{item.label}</div>
+    ))
     return (
       <div key={key} style={style} className="city">
-        <div className="title">A</div>
-        <div className="name">安庆</div>
+        <div className="title">{letter}</div>
+        {cityTags}
       </div>
     )
   }
@@ -135,10 +144,11 @@ class City extends React.Component {
         {({width, height}) => {
           // AutoSizer用于获取Lint组件父容器的宽度和高度
           // 判断状态数据是否存在,只有数据存在了，才可以计算行高
-          return this.state.cityInfo.cityIndex && <List
+          const { cityIndex } = this.state.cityInfo
+          return cityIndex && <List
             width={width}
             height={height - 45}
-            rowCount={list.length}
+            rowCount={cityIndex.length}
             rowHeight={this.calcRowHeight}
             rowRenderer={this.rowRenderer}
           />
