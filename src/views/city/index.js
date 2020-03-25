@@ -17,6 +17,16 @@ class City extends React.Component {
     const res = await request({url: 'area/city', params: {level: 1}})
     // 把原始城市列表数据进行分组
     const cityInfo = this.formatCityList(res.body)
+
+    // 获取热门城市数据
+    const hotCity = await request({url: 'area/hot'})
+    cityInfo.cityObj['hot'] = hotCity.body
+    cityInfo.cityIndex.unshift('hot')
+
+    // 当前城市数据处理（当前城市信息应该通过地理定位获取）
+    cityInfo.cityObj['#'] = [{label: '北京'}]
+    cityInfo.cityIndex.unshift('#')
+
     // 把分好组的城市列表数据更新到状态
     this.setState({
       cityInfo: cityInfo
