@@ -5,6 +5,7 @@ import Home from './views/home/index.js'
 import Login from './views/login/index.js'
 import City from './views/city/index.js'
 import TestRenderProps from './views/test/index1.js'
+import MapTest from './views/map/index.js'
 
 function NotFound () {
   return <div>NotFound</div>
@@ -18,6 +19,7 @@ function App() {
         <Route path='/login' component={Login}/>
         <Route path='/home' component={Home}/>
         <Route path='/city' component={City}/>
+        <Route path='/map' component={MapTest}/>
         <Route path='/rp' component={TestRenderProps}/>
         <Route component={NotFound}/>
       </Switch>
