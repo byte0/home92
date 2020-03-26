@@ -18,7 +18,8 @@ import './index.scss'
 class City extends React.Component {
 
   state = {
-    cityInfo: {}
+    cityInfo: {},
+    currentIndex: 0
   }
 
   loadData = async () => {
@@ -205,6 +206,24 @@ class City extends React.Component {
     )
   }
 
+  renderRightIndex = () => {
+    // 渲染右侧索引
+    const { cityIndex } = this.state.cityInfo
+    const { currentIndex } = this.state
+    const indexTags = cityIndex && cityIndex.map((item, index) => (
+      <li key={index} className="city-index-item">
+        <span className={currentIndex === index? 'index-active': ''}>
+          {item === 'hot'? '热': item.toUpperCase()}
+        </span>
+      </li>
+    ))
+    return (
+      <ul className="city-index">
+        {indexTags}
+      </ul>
+    )
+  }
+
   render () {
     return (
       <div style={{height: '100%'}}>
@@ -222,6 +241,8 @@ class City extends React.Component {
         >城市选择</NavBar>
         {/*城市列表*/}
         {this.renderCityList()}
+        {/*右侧索引*/}
+        {this.renderRightIndex()}
       </div>
     )
   }
