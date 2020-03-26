@@ -22,6 +22,9 @@ class City extends React.Component {
     currentIndex: 0
   }
 
+  // 创建一个List组件的引用
+  listRef = React.createRef()
+
   loadData = async () => {
     // 提示正在加载信息
     Toast.loading('正在加载...', 0)
@@ -206,6 +209,8 @@ class City extends React.Component {
           const { cityIndex } = this.state.cityInfo
           return cityIndex && <List
             width={width}
+            ref={this.listRef}
+            scrollToAlignment='start'
             onRowsRendered={this.onRowsRendered}
             height={height - 45}
             rowCount={cityIndex.length}
@@ -222,7 +227,14 @@ class City extends React.Component {
     const { cityIndex } = this.state.cityInfo
     const { currentIndex } = this.state
     const indexTags = cityIndex && cityIndex.map((item, index) => (
-      <li key={index} className="city-index-item">
+      <li 
+        onClick={() => {
+          // 点击右侧索引控制左侧列表的滚动
+          // current表示List组件的实例对象
+          this.listRef.current.scrollToRow(index)
+        }}
+        key={index} 
+        className="city-index-item">
         <span className={currentIndex === index? 'index-active': ''}>
           {item === 'hot'? '热': item.toUpperCase()}
         </span>
