@@ -186,6 +186,16 @@ class City extends React.Component {
     return 36 + 50 * list.length
   }
 
+  // 监听列表的固定
+  onRowsRendered = ({startIndex}) => {
+    // startIndex表示列表可视区行内容开始索引
+    if (this.state.currentIndex !== startIndex) {
+      this.setState({
+        currentIndex: startIndex
+      })
+    }
+  }
+
   renderCityList = () => {
     // 基于长列表组件进行城市列表的渲染
     return (
@@ -196,6 +206,7 @@ class City extends React.Component {
           const { cityIndex } = this.state.cityInfo
           return cityIndex && <List
             width={width}
+            onRowsRendered={this.onRowsRendered}
             height={height - 45}
             rowCount={cityIndex.length}
             rowHeight={this.calcRowHeight}
