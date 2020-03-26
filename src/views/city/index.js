@@ -21,6 +21,8 @@ class City extends React.Component {
   }
 
   loadData = async () => {
+    // 提示正在加载信息
+    Toast.loading('正在加载...', 0)
     // 获取城市列表的原始数据
     const res = await request({url: 'area/city', params: {level: 1}})
     // 把原始城市列表数据进行分组
@@ -46,9 +48,13 @@ class City extends React.Component {
         that.setState({
           cityInfo: cityInfo
         })
+        // 隐藏提示
+        Toast.hide()
       } else {
         // 定位失败
         console.log('fail')
+        // 隐藏提示
+        Toast.hide()
       }
     })
   }
