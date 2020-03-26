@@ -3,7 +3,7 @@
 */
 
 import React from 'react'
-import { NavBar, Icon } from 'antd-mobile'
+import { NavBar, Icon, Toast } from 'antd-mobile'
 import request from '../../utils/request.js'
 import {List, AutoSizer} from 'react-virtualized'
 import 'react-virtualized/styles.css'
@@ -116,7 +116,27 @@ class City extends React.Component {
     const list = cityObj[letter]
     // 动态生成城市列表
     const cityTags = list.map((item, index) => (
-      <div className="name" key={item.value + index}>{item.label}</div>
+      <div 
+        className="name" 
+        onClick={() => {
+          // 仅仅允许选择一线城市
+          let firstCity = cityObj.hot
+          let flag = firstCity.some(city => {
+            return city.label === item.label
+          })
+          if (flag) {
+            // 一线城市,缓存当前选中的城市，再跳回到主页
+            window.localStorage.setItem('current_city', JSON.stringify(item))
+            // 跳回到主页
+            this.props.history.push('/home')
+          } else {
+            // 非一线城市,提示一下
+            Toast.info('只允许选择一线城市', 1)
+          }
+        }}
+        key={item.value + index}>
+          {item.label}
+      </div>
     ))
     return (
       <div key={key} style={style} className="city">

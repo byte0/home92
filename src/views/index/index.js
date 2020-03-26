@@ -18,7 +18,8 @@ class Index extends React.Component {
   state = {
     swiperData: [],
     groupData: [],
-    newsData: []
+    newsData: [],
+    cityName: '北京'
   }
 
   // 加载轮播图接口数据
@@ -58,6 +59,14 @@ class Index extends React.Component {
     this.loadSwiper()
     this.loadGroup()
     this.loadNews()
+    // 获取当前城市名称
+    let currentCity = window.localStorage.getItem('current_city') 
+    if (currentCity) {
+      let city = JSON.parse(currentCity)
+      this.setState({
+        cityName: city.label
+      })
+    }
   }
 
   renderSwiper = () => {
@@ -170,7 +179,7 @@ class Index extends React.Component {
     return (
       <NavBar
         mode="dark"
-        leftContent="北京"
+        leftContent={this.state.cityName}
         onLeftClick={() => {
           // 左侧点击事件
           // 跳转到城市选择的页面
