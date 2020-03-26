@@ -62,7 +62,14 @@ class Index extends React.Component {
 
   renderSwiper = () => {
     const swiperItems = this.state.swiperData.map(item => (
-      <img key={item.id} src={BASE_IMG_URL + item.imgSrc} alt=""/>
+      <img 
+        key={item.id} 
+        src={BASE_IMG_URL + item.imgSrc}
+        onLoad={() => {
+          // 图片加载完成后触发，手动触发一个resize事件，通知轮播图尺寸发生了变化
+          window.dispatchEvent(new Event('resize'))
+        }} 
+        alt=""/>
     ))
     return (
       <Carousel dots infinite autoplay>
