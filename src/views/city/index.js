@@ -44,9 +44,12 @@ class City extends React.Component {
     cityInfo.cityIndex.unshift('#')
     this.setState({
       cityInfo: cityInfo
+    }, () => {
+      // 获取完数据提前计算List索引行的高度，保证可以进准控制滚动位置
+      this.listRef.current.measureAllRows()
+      // 隐藏提示
+      Toast.hide()
     })
-    // 隐藏提示
-    Toast.hide()
 
     // const geolocation = new window.BMap.Geolocation();
     // let that = this
