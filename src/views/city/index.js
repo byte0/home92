@@ -5,6 +5,7 @@
 import React from 'react'
 import { NavBar, Icon, Toast } from 'antd-mobile'
 import request from '../../utils/request.js'
+import { getCurrentCity } from '../../utils/config.js'
 import {List, AutoSizer} from 'react-virtualized'
 import 'react-virtualized/styles.css'
 import './index.scss'
@@ -34,29 +35,38 @@ class City extends React.Component {
     cityInfo.cityIndex.unshift('hot')
 
     // 当前城市数据处理（当前城市信息应该通过地理定位获取）
-    const geolocation = new window.BMap.Geolocation();
-    let that = this
-    geolocation.getCurrentPosition(async function (r) {
-      if(this.getStatus() === window.BMAP_STATUS_SUCCESS){
-        // 定位成功
-        // console.log(r.address.city)
-        // 根据城市名称获取城市详细信息
-        const res = await request({url: 'area/info', params: {name: r.address.city.substr(0, 2)}})
-        cityInfo.cityObj['#'] = [res.body]
-        cityInfo.cityIndex.unshift('#')
-        // 把分好组的城市列表数据更新到状态
-        that.setState({
-          cityInfo: cityInfo
-        })
-        // 隐藏提示
-        Toast.hide()
-      } else {
-        // 定位失败
-        console.log('fail')
-        // 隐藏提示
-        Toast.hide()
-      }
+    const city = await getCurrentCity()
+    cityInfo.cityObj['#'] = [city]
+    cityInfo.cityIndex.unshift('#')
+    this.setState({
+      cityInfo: cityInfo
     })
+    // 隐藏提示
+    Toast.hide()
+
+    // const geolocation = new window.BMap.Geolocation();
+    // let that = this
+    // geolocation.getCurrentPosition(async function (r) {
+    //   if(this.getStatus() === window.BMAP_STATUS_SUCCESS){
+    //     // 定位成功
+    //     // console.log(r.address.city)
+    //     // 根据城市名称获取城市详细信息
+    //     const res = await request({url: 'area/info', params: {name: r.address.city.substr(0, 2)}})
+    //     cityInfo.cityObj['#'] = [res.body]
+    //     cityInfo.cityIndex.unshift('#')
+    //     // 把分好组的城市列表数据更新到状态
+    //     that.setState({
+    //       cityInfo: cityInfo
+    //     })
+    //     // 隐藏提示
+    //     Toast.hide()
+    //   } else {
+    //     // 定位失败
+    //     console.log('fail')
+    //     // 隐藏提示
+    //     Toast.hide()
+    //   }
+    // })
   }
 
   formatCityList = (cityList) => {

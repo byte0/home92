@@ -10,7 +10,7 @@ import nav1 from '../../assets/images/nav-1.png'
 import nav2 from '../../assets/images/nav-2.png'
 import nav3 from '../../assets/images/nav-3.png'
 import nav4 from '../../assets/images/nav-4.png'
-import { BASE_IMG_URL } from '../../utils/config.js'
+import { BASE_IMG_URL, getCurrentCity } from '../../utils/config.js'
 import request from '../../utils/request.js'
 
 class Index extends React.Component {
@@ -60,13 +60,11 @@ class Index extends React.Component {
     this.loadGroup()
     this.loadNews()
     // 获取当前城市名称
-    let currentCity = window.localStorage.getItem('current_city') 
-    if (currentCity) {
-      let city = JSON.parse(currentCity)
+    getCurrentCity().then(res => {
       this.setState({
-        cityName: city.label
+        cityName: res.label
       })
-    }
+    })
   }
 
   renderSwiper = () => {
