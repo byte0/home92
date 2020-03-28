@@ -185,7 +185,8 @@ class Index extends React.Component {
         }}
         rightContent={[
           <Icon onClick={() => {
-            console.log('right click')
+            // 跳转到地图找房页面
+            this.props.history.push('/map')
           }} key="0" type="search" style={{ marginRight: '16px' }} />
         ]}
       >首页</NavBar>
