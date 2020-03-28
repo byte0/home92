@@ -66,6 +66,9 @@ class MapTest extends React.Component {
       } else if (type === 'second') {
         // 绘制三级覆盖物
         this.drawThirdLevelOverlay(map, overlayData)
+      } else if (type === 'third') {
+        // 点击三级覆盖物，应该加载小区房源列表并展示
+        console.log('小区房源')
       }
     })
 
@@ -79,8 +82,26 @@ class MapTest extends React.Component {
   }
 
   // 绘制三级覆盖物
-  drawThirdLevelOverlay = () => {
-    console.log('三级覆盖物')
+  drawThirdLevelOverlay = async (map, overlayData) => {
+    // 1、清空二级覆盖物
+    setTimeout(() => {
+      map.clearOverlays()
+    }, 0)
+    // 2、放大地图
+    const point = new window.BMap.Point(overlayData.coord.longitude, overlayData.coord.latitude)
+    map.centerAndZoom(point, 15)
+    // 3、调用接口获取三级覆盖物数据
+    const res = await request({
+      url: 'area/map',
+      params: {
+        id: overlayData.value
+      }
+    })
+    // 4、批量绘制
+    res.body.forEach(item => {
+      // 绘制三级覆盖物
+      this.drawSingleOverlay(map, item, 'third')
+    })
   }
 
   // 绘制二级覆盖物 
