@@ -57,6 +57,12 @@ class MapTest extends React.Component {
       </div>
     `
     let label = new window.BMap.Label(labelContent, opts);
+    // 给覆盖物绑定事件
+    label.addEventListener('click', () => {
+      // 绘制二级覆盖物
+      this.drawSecondLevelOverlay(map, overlayData)
+    })
+
     // 设置label本身的样式
     label.setStyle({
       border: '0',
@@ -64,6 +70,30 @@ class MapTest extends React.Component {
     })
     // 把地图覆盖物添加到地图中
     map.addOverlay(label)
+  }
+
+  // 绘制二级覆盖物 
+  drawSecondLevelOverlay = async (map, overlayData) => {
+    // 一级覆盖物点击时，
+    // 1、需要清空原有覆盖物，
+    setTimeout(() => {
+      // 防止出现警告
+      map.clearOverlays()
+    }, 0)
+    // 2、根据点击的一级覆盖物，获取对应二级覆盖物的数据
+    const res = await request({
+      url: 'area/map',
+      params: {
+        id: overlayData.value
+      }
+    })
+    // 3、重新绘制二级覆盖物（放大地图）
+    const point = new window.BMap.Point(overlayData.coord.longitude, overlayData.coord.latitude)
+    map.centerAndZoom(point, 13)
+    res.body.forEach(item => {
+      // 绘制单个二级覆盖物
+      this.drawSingleOverlay(map, item)
+    })
   }
 
   // 批量绘制一级覆盖物
