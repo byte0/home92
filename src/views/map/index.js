@@ -5,8 +5,13 @@ import React from 'react'
 import './index.scss'
 import { NavBar, Icon } from 'antd-mobile'
 import { getCurrentCity } from '../../utils/config.js'
+import request from '../../utils/request.js'
 
 class MapTest extends React.Component {
+
+  state = {
+    houseData: []
+  }
 
   // 初始化地图
   initMap = async () => {
@@ -53,9 +58,25 @@ class MapTest extends React.Component {
     }, '中国')
   }
 
+  // 获取一级覆盖物
+  loadFirstLevelData = async () => {
+    // 获取当前城市数据
+    const city = await getCurrentCity()
+    const res = await request({
+      url: 'area/map',
+      params: {
+        id: city.value
+      }
+    })
+    this.setState({
+      houseData: res.body
+    })
+  }
+
   componentDidMount () {
     // 初始化地图
     this.initMap()
+    this.loadFirstLevelData()
   }
 
   render () {
