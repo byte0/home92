@@ -10,7 +10,10 @@ import request from '../../utils/request.js'
 class MapTest extends React.Component {
 
   state = {
-    houseData: []
+    // 地图覆盖物数据
+    houseData: [],
+    // 小区房源列表
+    areaList: []
   }
 
   // 初始化地图
@@ -79,7 +82,7 @@ class MapTest extends React.Component {
         this.drawThirdLevelOverlay(map, overlayData)
       } else if (type === 'third') {
         // 点击三级覆盖物，应该加载小区房源列表并展示
-        console.log('小区房源')
+        this.showHouseList(overlayData.value)
       }
     })
 
@@ -90,6 +93,19 @@ class MapTest extends React.Component {
     })
     // 把地图覆盖物添加到地图中
     map.addOverlay(label)
+  }
+
+  // 展示房源列表
+  showHouseList = async (id) => {
+    const res = await request({
+      url: 'houses',
+      params: {
+        cityId: id
+      }
+    })
+    this.setState({
+      areaList: res.body.list
+    })
   }
 
   // 绘制三级覆盖物
