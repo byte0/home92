@@ -13,7 +13,9 @@ class MapTest extends React.Component {
     // 地图覆盖物数据
     houseData: [],
     // 小区房源列表
-    areaList: []
+    areaList: [],
+    // 控制列表展示或者隐藏
+    isShow: false
   }
 
   // 初始化地图
@@ -104,7 +106,9 @@ class MapTest extends React.Component {
       }
     })
     this.setState({
-      areaList: res.body.list
+      areaList: res.body.list,
+      // 加载完数据显示房源列表
+      isShow: true
     })
   }
 
@@ -191,6 +195,20 @@ class MapTest extends React.Component {
     // })
   }
 
+  // 渲染房源列表的模板
+  renderAreaList = () => {
+    return (
+      <div className={['house-list', this.state.isShow? 'show': ''].join(' ')}>
+        <div className='title-wrap'>
+          <h1 className='list-title'>房屋列表</h1>
+          <a className='title-more' href="/house/list">
+            更多房源
+          </a>
+        </div>
+        <div className='house-items'></div>
+      </div>
+    )
+  }
   render () {
     return (
       <div style={{height: '100%'}}>
@@ -205,6 +223,8 @@ class MapTest extends React.Component {
         >城市选择</NavBar>
         {/*地图区域*/}
         <div id='mymap'></div>
+        {/*房源列表的模板*/}
+        {this.renderAreaList()}
       </div>
     )
   }
