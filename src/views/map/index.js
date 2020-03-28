@@ -26,7 +26,7 @@ class MapTest extends React.Component {
       // 2、创建地图中心点坐标
       const point = new window.BMap.Point(info.lng, info.lat)
       // 3、设置地图的中心点坐标和缩放级别 
-      map.centerAndZoom(point, 11)
+      map.centerAndZoom(point, 15)
       // 添加地图覆盖物
       // 添加地图覆盖物
       let opts = {
@@ -35,7 +35,19 @@ class MapTest extends React.Component {
         // 覆盖物中心点的偏移量
         offset: new window.BMap.Size(-30, -30)
       }
-      let label = new window.BMap.Label('覆盖物', opts);
+      // 如下的覆盖物内容由百度地图解析，而不是React解析
+      const labelContent = `
+        <div class='map-overlay'>
+          <div>海淀区</div>
+          <div>123套</div>
+        </div>
+      `
+      let label = new window.BMap.Label(labelContent, opts);
+      // 设置label本身的样式
+      label.setStyle({
+        border: '0',
+        background: 'rgba(0,0,0,0)'
+      })
       // 把地图覆盖物添加到地图中
       map.addOverlay(label)
     }, '中国')
