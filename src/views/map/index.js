@@ -39,7 +39,7 @@ class MapTest extends React.Component {
   }
 
   // 封装绘制单个覆盖物方法
-  drawSingleOverlay = (map, overlayData) => {
+  drawSingleOverlay = (map, overlayData, type) => {
     // 覆盖物坐标点
     const point = new window.BMap.Point(overlayData.coord.longitude, overlayData.coord.latitude)
     // 添加地图覆盖物
@@ -60,8 +60,13 @@ class MapTest extends React.Component {
 
     // 给覆盖物绑定事件
     label.addEventListener('click', () => {
-      // 绘制二级覆盖物
-      this.drawSecondLevelOverlay(map, overlayData)
+      if (type === 'first') {
+        // 绘制二级覆盖物
+        this.drawSecondLevelOverlay(map, overlayData)
+      } else if (type === 'second') {
+        // 绘制三级覆盖物
+        this.drawThirdLevelOverlay(map, overlayData)
+      }
     })
 
     // 设置label本身的样式
@@ -71,6 +76,11 @@ class MapTest extends React.Component {
     })
     // 把地图覆盖物添加到地图中
     map.addOverlay(label)
+  }
+
+  // 绘制三级覆盖物
+  drawThirdLevelOverlay = () => {
+    console.log('三级覆盖物')
   }
 
   // 绘制二级覆盖物 
@@ -93,7 +103,7 @@ class MapTest extends React.Component {
     map.centerAndZoom(point, 13)
     res.body.forEach(item => {
       // 绘制单个二级覆盖物
-      this.drawSingleOverlay(map, item)
+      this.drawSingleOverlay(map, item, 'second')
     })
   }
 
@@ -102,7 +112,7 @@ class MapTest extends React.Component {
     const { houseData } = this.state
     houseData.forEach(item => {
       // 绘制单个覆盖物
-      this.drawSingleOverlay(map, item)
+      this.drawSingleOverlay(map, item, 'first')
     })
   }
 
