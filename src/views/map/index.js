@@ -57,6 +57,7 @@ class MapTest extends React.Component {
       </div>
     `
     let label = new window.BMap.Label(labelContent, opts);
+
     // 给覆盖物绑定事件
     label.addEventListener('click', () => {
       // 绘制二级覆盖物
