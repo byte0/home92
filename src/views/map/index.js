@@ -31,16 +31,17 @@ class MapTest extends React.Component {
       // 2、创建地图中心点坐标
       const point = new window.BMap.Point(info.lng, info.lat)
       // 3、设置地图的中心点坐标和缩放级别 
-      map.centerAndZoom(point, 15)
+      map.centerAndZoom(point, 11)
       
-      // 绘制单个覆盖物
-      this.drawSingleOverlay(map, point)
-
+      // 批量绘制一级覆盖物
+      this.drawFirstLevelOverlay(map)
     }, '中国')
   }
 
   // 封装绘制单个覆盖物方法
-  drawSingleOverlay = (map, point) => {
+  drawSingleOverlay = (map, overlayData) => {
+    // 覆盖物坐标点
+    const point = new window.BMap.Point(overlayData.coord.longitude, overlayData.coord.latitude)
     // 添加地图覆盖物
     let opts = {
       // 表示覆盖物绘制的坐标
@@ -51,8 +52,8 @@ class MapTest extends React.Component {
     // 如下的覆盖物内容由百度地图解析，而不是React解析
     const labelContent = `
       <div class='map-overlay'>
-        <div>海淀区</div>
-        <div>123套</div>
+        <div>${overlayData.label}</div>
+        <div>${overlayData.count}套</div>
       </div>
     `
     let label = new window.BMap.Label(labelContent, opts);
@@ -63,6 +64,15 @@ class MapTest extends React.Component {
     })
     // 把地图覆盖物添加到地图中
     map.addOverlay(label)
+  }
+
+  // 批量绘制一级覆盖物
+  drawFirstLevelOverlay = (map) => {
+    const { houseData } = this.state
+    houseData.forEach(item => {
+      // 绘制单个覆盖物
+      this.drawSingleOverlay(map, item)
+    })
   }
 
   // 获取一级覆盖物
@@ -80,10 +90,16 @@ class MapTest extends React.Component {
     })
   }
 
-  componentDidMount () {
+  async componentDidMount () {
+    // 获取一级覆盖物数据(加载完成数据后才去初始化地图)
+    await this.loadFirstLevelData()
     // 初始化地图
     this.initMap()
-    this.loadFirstLevelData()
+    
+    // 按照如下的写法也可以
+    // this.loadFirstLevelData().then(() => {
+    //   this.initMap()
+    // })
   }
 
   render () {
