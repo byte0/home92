@@ -235,6 +235,12 @@ class City extends React.Component {
           // 点击右侧索引控制左侧列表的滚动
           // current表示List组件的实例对象
           this.listRef.current.scrollToRow(index)
+          // 控制点击索引时精准定位（索引的高亮）
+          setTimeout(() => {
+            this.setState({
+              currentIndex: index
+            })
+          }, 0)
         }}
         key={index} 
         className="city-index-item">
