@@ -27,6 +27,17 @@ class MapTest extends React.Component {
       const point = new window.BMap.Point(info.lng, info.lat)
       // 3、设置地图的中心点坐标和缩放级别 
       map.centerAndZoom(point, 11)
+      // 添加地图覆盖物
+      // 添加地图覆盖物
+      let opts = {
+        // 表示覆盖物绘制的坐标
+        position: point,
+        // 覆盖物中心点的偏移量
+        offset: new window.BMap.Size(-30, -30)
+      }
+      let label = new window.BMap.Label('覆盖物', opts);
+      // 把地图覆盖物添加到地图中
+      map.addOverlay(label)
     }, '中国')
   }
 
