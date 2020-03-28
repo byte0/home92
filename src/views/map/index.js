@@ -50,12 +50,23 @@ class MapTest extends React.Component {
       offset: new window.BMap.Size(-30, -30)
     }
     // 如下的覆盖物内容由百度地图解析，而不是React解析
-    const labelContent = `
+    let labelContent = `
       <div class='map-overlay'>
         <div>${overlayData.label}</div>
         <div>${overlayData.count}套</div>
       </div>
     `
+    
+    if (type === 'third') {
+      // 调整三级覆盖物的样式
+      labelContent = `
+        <div class='map-overlay-area'>
+          <span>${overlayData.label}</span>
+          <span>${overlayData.count}套</span>
+        </div>
+      `
+    }
+
     let label = new window.BMap.Label(labelContent, opts);
 
     // 给覆盖物绑定事件
