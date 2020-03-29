@@ -4,7 +4,7 @@
 import React from 'react'
 import './index.scss'
 import { NavBar, Icon } from 'antd-mobile'
-import { getCurrentCity } from '../../utils/config.js'
+import { getCurrentCity, BASE_IMG_URL } from '../../utils/config.js'
 import request from '../../utils/request.js'
 
 class MapTest extends React.Component {
@@ -197,6 +197,26 @@ class MapTest extends React.Component {
 
   // 渲染房源列表的模板
   renderAreaList = () => {
+    const { areaList } = this.state
+    const listTag = areaList.map(item => (
+      <div key={item.houseCode} className='house'>
+        <div className='img-wrap'>
+            <img className='img' src={BASE_IMG_URL + item.houseImg} alt=""/>
+        </div>
+        <div className='content'>
+            <h3 className='title'>{item.title}</h3>
+            <div className='desc'>{item.desc}</div>
+            <div>
+                <span className='tag tag1'>
+                  近地铁
+                </span>
+            </div>
+            <div className='price'>
+                <span className='price-num'>{item.price}</span> 元/月
+            </div>
+        </div>
+      </div>
+    ))
     return (
       <div className={['house-list', this.state.isShow? 'show': ''].join(' ')}>
         <div className='title-wrap'>
@@ -205,10 +225,13 @@ class MapTest extends React.Component {
             更多房源
           </a>
         </div>
-        <div className='house-items'></div>
+        <div className='house-items'>
+          {listTag}
+        </div>
       </div>
     )
   }
+  
   render () {
     return (
       <div style={{height: '100%'}}>
