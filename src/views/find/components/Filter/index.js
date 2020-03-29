@@ -15,7 +15,9 @@ export default class Filter extends Component {
       mode: false,
       price: true,
       more: false
-    }
+    },
+    // 当前点击的菜单类型
+    openType: ''
   }
 
   // 修改对应菜单的高亮状态
@@ -33,15 +35,31 @@ export default class Filter extends Component {
         ...this.state.menuStatus,
         // 对象属性名称可以是动态的
         [type]: true
-      }
+      },
+      openType: type
+    })
+  }
+
+  // 点击取消按钮时关闭下拉列表
+  onCancel = () => {
+    this.setState({
+      openType: ''
+    })
+  }
+
+  // 点击确定按钮时关闭下拉列表
+  onSave= () => {
+    this.setState({
+      openType: ''
     })
   }
 
   render() {
+    const { openType } = this.state
     return (
       <div className={styles.root}>
         {/* 前三个菜单的遮罩层 */}
-        {/* <div className={styles.mask} /> */}
+        {(openType === 'area' || openType === 'mode' || openType === 'price') && <div className={styles.mask} />}
 
         <div className={styles.content}>
           {/* 标题栏 */}
@@ -50,7 +68,7 @@ export default class Filter extends Component {
             menuStatus={this.state.menuStatus}/>
 
           {/* 前三个菜单对应的内容： */}
-          {/* <FilterPicker /> */}
+          {(openType === 'area' || openType === 'mode' || openType === 'price') && <FilterPicker onCancel={this.onCancel} onSave={this.onSave}/> }
 
           {/* 最后一个菜单对应的内容： */}
           {/* <FilterMore /> */}

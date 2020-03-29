@@ -87,16 +87,25 @@ const province = [
   }
 ]
 
+// 组件的模板必须有唯一的跟节点
+// <React.Fragment></React.Fragment> 主要用于作为组件的跟节点，但是本身不会渲染出来
+// <React.Fragment></React.Fragment> 可以简写为 <></>
+// 这种用法类似于Vue中的那个标签？<template></template>
+// 也类似于小程序中的哪个标签？<block></block>
+// v-show 是否可以用到template标签上？
+
 export default class FilterPicker extends Component {
   render() {
     return (
-      <>
+      <React.Fragment>
         {/* 选择器组件： */}
         <PickerView data={province} value={null} cols={3} />
 
         {/* 底部按钮 */}
-        <FilterFooter />
-      </>
+        <FilterFooter 
+          onSave={this.props.onSave}
+          onCancel={this.props.onCancel}/>
+      </React.Fragment>
     )
   }
 }
