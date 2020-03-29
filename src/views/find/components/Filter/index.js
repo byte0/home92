@@ -18,6 +18,25 @@ export default class Filter extends Component {
     }
   }
 
+  // 修改对应菜单的高亮状态
+  changeStatus = (type) => {
+    // console.log('change:' + type)
+    // 先复制一份原有的数据
+    // let newMenuStatus = {...this.state.menuStatus}
+    // newMenuStatus[type] = true
+    // this.setState({
+    //   menuStatus: newMenuStatus
+    // })
+    // ------------------------------
+    this.setState({
+      menuStatus: {
+        ...this.state.menuStatus,
+        // 对象属性名称可以是动态的
+        [type]: true
+      }
+    })
+  }
+
   render() {
     return (
       <div className={styles.root}>
@@ -26,7 +45,9 @@ export default class Filter extends Component {
 
         <div className={styles.content}>
           {/* 标题栏 */}
-          <FilterTitle menuStatus={this.state.menuStatus}/>
+          <FilterTitle 
+            changeStatus={this.changeStatus}
+            menuStatus={this.state.menuStatus}/>
 
           {/* 前三个菜单对应的内容： */}
           {/* <FilterPicker /> */}

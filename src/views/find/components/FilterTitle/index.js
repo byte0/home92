@@ -13,13 +13,18 @@ const titleList = [
 ]
 
 export default function FilterTitle(props) {
-  const { menuStatus } = props
+  const { menuStatus, changeStatus } = props
   const menuTag = titleList.map(item => {
     let flag = menuStatus[item.type]
     return (
       <Flex.Item key={item.type}>
         {/* 选中类名： selected */}
-        <span className={[styles.dropdown, flag? styles.selected: ''].join(' ')}>
+        <span 
+          onClick={() => {
+            // 点击菜单控制对应菜单高亮（子组件控制父组件的状态）
+            changeStatus(item.type)
+          }}
+          className={[styles.dropdown, flag? styles.selected: ''].join(' ')}>
           <span>{item.title}</span>
           <i className="iconfont icon-arrow" />
         </span>
