@@ -18,6 +18,24 @@ class Home extends React.Component {
     }
   }
 
+  componentDidUpdate (prevProps) {
+    // prevProps表示原来的数据
+    // this.props表示最新的数据
+    // console.log(prevProps)
+    // console.log(this.props)
+    let oldPath = prevProps.location.pathname
+    let newPath = this.props.location.pathname
+    // 这里的判断必须添加，否则会报错
+    if (oldPath !== newPath) {
+      // 路径发生了变化，手动更新当前路径
+      // console.log(newPath)
+      let p = newPath.substr(newPath.lastIndexOf('/') + 1)
+      this.setState({
+        selectedTab: p
+      })
+    }
+  }
+
   // 动态生成底部的菜单
   renderMenuItems = () => {
     const menuData = [{

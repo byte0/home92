@@ -27,7 +27,7 @@ class Find extends React.Component {
         <Flex className='header'>
           <i onClick={() => {
             // 点击时，跳转到主页
-            this.props.history.push('/home')
+            this.props.history.push('/home/index')
           }} className="iconfont icon-back" />
           <Flex className='search-box searchHeader'>
             {/* 左侧白色区域 */}
