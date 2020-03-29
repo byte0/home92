@@ -37,6 +37,14 @@ class MapTest extends React.Component {
       const point = new window.BMap.Point(info.lng, info.lat)
       // 3、设置地图的中心点坐标和缩放级别 
       map.centerAndZoom(point, 11)
+
+      // 绑定地图的移动事件
+      map.addEventListener('movestart', () => {
+        // 地图移动时需要隐藏房源列表
+        this.setState({
+          isShow: false
+        })
+      })
       
       // 批量绘制一级覆盖物
       this.drawFirstLevelOverlay(map)
@@ -231,7 +239,7 @@ class MapTest extends React.Component {
       </div>
     )
   }
-  
+
   render () {
     return (
       <div style={{height: '100%'}}>
