@@ -96,11 +96,10 @@ class MapTest extends React.Component {
         // 控制地图的移动
         // 获取点击时鼠标的位置坐标
         const { clientX, clientY } = e.changedTouches[0]
-        
         // 获取地图中心点坐标
         const x0 = window.innerWidth / 2
         const y0 = (window.innerHeight - 330) / 2
-        // 地图移动的距离
+        // 地图移动的距离（必须使用中心点坐标-点击位置的坐标）
         const x = x0 - clientX
         const y = y0 - clientY
         // 调用地图的API实现地图的移动
@@ -227,9 +226,16 @@ class MapTest extends React.Component {
             <h3 className='title'>{item.title}</h3>
             <div className='desc'>{item.desc}</div>
             <div>
-                <span className='tag tag1'>
-                  近地铁
-                </span>
+              {item.tags && item.tags.map((item, index) => {
+                // tagCls类名所有需要从1-3进行变化
+                let i = (index + 1) % 3 === 0? 3: (index + 1) % 3 
+                let tagCls = 'tag' + i
+                return (
+                  <span key={index} className={['tag', tagCls].join(' ')}>
+                    {item}
+                  </span>
+                )
+              })}
             </div>
             <div className='price'>
                 <span className='price-num'>{item.price}</span> 元/月
