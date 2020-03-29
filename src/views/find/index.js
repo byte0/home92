@@ -5,6 +5,7 @@ import React from 'react'
 import { Flex } from 'antd-mobile'
 import { getCurrentCity } from '../../utils/config.js'
 import './index.scss'
+import Filter from './components/Filter/index.js'
 
 class Find extends React.Component {
 
@@ -50,6 +51,8 @@ class Find extends React.Component {
             <i className="iconfont icon-map" />
           </Flex>
         </Flex>
+        {/*筛选条件*/}
+        <Filter/>
       </div>
     )
   }
