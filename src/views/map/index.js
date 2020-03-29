@@ -3,7 +3,7 @@
 */
 import React from 'react'
 import './index.scss'
-import { NavBar, Icon } from 'antd-mobile'
+import { NavBar, Icon, Toast } from 'antd-mobile'
 import { getCurrentCity, BASE_IMG_URL } from '../../utils/config.js'
 import request from '../../utils/request.js'
 
@@ -133,6 +133,8 @@ class MapTest extends React.Component {
 
   // 绘制三级覆盖物
   drawThirdLevelOverlay = async (map, overlayData) => {
+    // 显示提示
+    Toast.loading('正在加载...', 0)
     // 1、清空二级覆盖物
     setTimeout(() => {
       map.clearOverlays()
@@ -152,11 +154,14 @@ class MapTest extends React.Component {
       // 绘制三级覆盖物
       this.drawSingleOverlay(map, item, 'third')
     })
+    // 隐藏提示
+    Toast.hide()
   }
 
   // 绘制二级覆盖物 
   drawSecondLevelOverlay = async (map, overlayData) => {
     // 一级覆盖物点击时，
+    Toast.loading('正在加载...', 0)
     // 1、需要清空原有覆盖物，
     setTimeout(() => {
       // 防止出现警告
@@ -176,6 +181,8 @@ class MapTest extends React.Component {
       // 绘制单个二级覆盖物
       this.drawSingleOverlay(map, item, 'second')
     })
+    // 隐藏提示
+    Toast.hide()
   }
 
   // 批量绘制一级覆盖物
@@ -190,6 +197,7 @@ class MapTest extends React.Component {
   // 获取一级覆盖物
   loadFirstLevelData = async () => {
     // 获取当前城市数据
+    Toast.loading('正在加载...', 0)
     const city = await getCurrentCity()
     const res = await request({
       url: 'area/map',
@@ -199,6 +207,9 @@ class MapTest extends React.Component {
     })
     this.setState({
       houseData: res.body
+    }, () => {
+      // 隐藏提示
+      Toast.hide()
     })
   }
 
