@@ -83,7 +83,7 @@ class MapTest extends React.Component {
     let label = new window.BMap.Label(labelContent, opts);
 
     // 给覆盖物绑定事件
-    label.addEventListener('click', () => {
+    label.addEventListener('click', (e) => {
       if (type === 'first') {
         // 绘制二级覆盖物
         this.drawSecondLevelOverlay(map, overlayData)
@@ -93,6 +93,18 @@ class MapTest extends React.Component {
       } else if (type === 'third') {
         // 点击三级覆盖物，应该加载小区房源列表并展示
         this.showHouseList(overlayData.value)
+        // 控制地图的移动
+        // 获取点击时鼠标的位置坐标
+        const { clientX, clientY } = e.changedTouches[0]
+        
+        // 获取地图中心点坐标
+        const x0 = window.innerWidth / 2
+        const y0 = (window.innerHeight - 330) / 2
+        // 地图移动的距离
+        const x = x0 - clientX
+        const y = y0 - clientY
+        // 调用地图的API实现地图的移动
+        map.panBy(x, y)
       }
     })
 
