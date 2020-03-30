@@ -76,7 +76,36 @@ export default class Filter extends Component {
   }
 
   render() {
-    const { openType } = this.state
+    const { 
+      openType, 
+      filterData
+      // 子属性的解构赋值
+      // filterData: { area, subway, rentType, price }
+    } = this.state
+    // 从filterData中解构出4个属性
+    const { area, subway, rentType, price } = filterData
+    
+    // 下拉列表的数据
+    let data = null
+    // 列表的列的控制
+    let cols = 1
+    switch(openType){
+      case 'area':
+        // 区域筛选数据
+        data = [area, subway]
+        cols = 3
+        break;
+      case 'mode':
+        // 方式筛选数据
+        data = rentType
+        break;
+      case 'price':
+        // 租金筛选数据
+        data = price
+      default:
+        break;  
+    }
+
     return (
       <div className={styles.root}>
         {/* 前三个菜单的遮罩层 */}
@@ -89,7 +118,7 @@ export default class Filter extends Component {
             menuStatus={this.state.menuStatus}/>
 
           {/* 前三个菜单对应的内容： */}
-          {(openType === 'area' || openType === 'mode' || openType === 'price') && <FilterPicker onCancel={this.onCancel} onSave={this.onSave}/> }
+          {(openType === 'area' || openType === 'mode' || openType === 'price') && <FilterPicker data={data} cols={cols} onCancel={this.onCancel} onSave={this.onSave}/> }
 
           {/* 最后一个菜单对应的内容： */}
           {/* <FilterMore /> */}
