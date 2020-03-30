@@ -124,11 +124,20 @@ export default class Filter extends Component {
     //   console.log(this.state.menuValues)
     // })
     // -----------------------------
+    const newMenuStatus = {...this.state.menuStatus}
+    if (value) {
+      // 有值高亮
+      newMenuStatus[openType] = true
+    } else {
+      // 没选值不高亮
+      newMenuStatus[openType] = false
+    }
     this.setState({
       menuValues: {
         ...this.state.menuValues,
         [openType]: value
       },
+      menuStatus: newMenuStatus,
       openType: ''
     }, () => {
       // console.log(this.state.menuValues)
