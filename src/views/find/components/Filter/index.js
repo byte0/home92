@@ -106,7 +106,7 @@ export default class Filter extends Component {
       // filterData: { area, subway, rentType, price }
     } = this.state
     // 从filterData中解构出4个属性
-    const { area, subway, rentType, price } = filterData
+    const { area, subway, rentType, price, roomType, oriented, floor, characteristic } = filterData
     
     // 下拉列表的数据
     let data = null
@@ -125,6 +125,9 @@ export default class Filter extends Component {
       case 'price':
         // 租金筛选数据
         data = price
+      case 'more':
+        // 第4个筛选菜单
+        data = {roomType, oriented, floor, characteristic}
       default:
         break;  
     }
@@ -144,7 +147,7 @@ export default class Filter extends Component {
           {(openType === 'area' || openType === 'mode' || openType === 'price') && <FilterPicker data={data} openType={openType} cols={cols} onCancel={this.onCancel} onSave={this.onSave}/> }
 
           {/* 最后一个菜单对应的内容： */}
-          {/* <FilterMore /> */}
+          { openType === 'more' && <FilterMore data={data}/>}
         </div>
       </div>
     )
