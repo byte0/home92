@@ -19,14 +19,13 @@ export default class FilterPicker extends Component {
 
   handleCondition = (value) => {
     // 动态更新选中的值
-    console.log(value)
     this.setState({
       condition: value
     })
   }
 
   render() {
-    const { data, cols } = this.props
+    const { data, cols, openType } = this.props
     return (
       <React.Fragment>
         {/* 选择器组件： */}
@@ -38,7 +37,9 @@ export default class FilterPicker extends Component {
 
         {/* 底部按钮 */}
         <FilterFooter 
-          onSave={this.props.onSave}
+          onSave={() => {
+            this.props.onSave(openType, this.state.condition)
+          }}
           onCancel={this.props.onCancel}/>
       </React.Fragment>
     )

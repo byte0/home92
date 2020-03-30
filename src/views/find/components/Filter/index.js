@@ -17,6 +17,13 @@ export default class Filter extends Component {
       price: true,
       more: false
     },
+    // 用来保存筛选条件选中的值
+    menuValues: {
+      area: null,
+      mode: null,
+      price: null,
+      more: null
+    },
     // 当前点击的菜单类型
     openType: '',
     // 筛选条件的选项数据
@@ -69,9 +76,25 @@ export default class Filter extends Component {
   }
 
   // 点击确定按钮时关闭下拉列表
-  onSave= () => {
+  onSave= (openType, value) => {
+    // 把子组件传递过来的选项值保存到menuValues当中
+    // let newMenuValues = {...this.state.menuValues}
+    // newMenuValues[openType] = value
+    // this.setState({
+    //   menuValues: newMenuValues,
+    //   openType: ''
+    // }, () => {
+    //   console.log(this.state.menuValues)
+    // })
+    // -----------------------------
     this.setState({
+      menuValues: {
+        ...this.state.menuValues,
+        [openType]: value
+      },
       openType: ''
+    }, () => {
+      console.log(this.state.menuValues)
     })
   }
 
@@ -118,7 +141,7 @@ export default class Filter extends Component {
             menuStatus={this.state.menuStatus}/>
 
           {/* 前三个菜单对应的内容： */}
-          {(openType === 'area' || openType === 'mode' || openType === 'price') && <FilterPicker data={data} cols={cols} onCancel={this.onCancel} onSave={this.onSave}/> }
+          {(openType === 'area' || openType === 'mode' || openType === 'price') && <FilterPicker data={data} openType={openType} cols={cols} onCancel={this.onCancel} onSave={this.onSave}/> }
 
           {/* 最后一个菜单对应的内容： */}
           {/* <FilterMore /> */}
