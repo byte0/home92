@@ -14,7 +14,7 @@ export default class Filter extends Component {
     menuStatus: {
       area: false,
       mode: false,
-      price: true,
+      price: false,
       more: false
     },
     // 用来保存筛选条件选中的值
@@ -51,9 +51,33 @@ export default class Filter extends Component {
   // 修改对应菜单的高亮状态
   changeStatus = (type) => {
     // console.log('change:' + type)
+    // 完善菜单点击的高亮控制逻辑
     // 先复制一份原有的数据
-    let newMenuStatus = {...this.state.menuStatus}
-    newMenuStatus[type] = true
+    const { menuStatus, menuValues } = this.state
+    let newMenuStatus = {...menuStatus}
+    // Object.keys的作用：获取对象的所有属性形成一个数组
+    Object.keys(newMenuStatus).forEach(item => {
+      // 判断每一个菜单是否应该高亮
+      if (item === type) {
+        // 当前点击的菜单
+        newMenuStatus[type] = true
+      } else if (item === 'area' && menuValues.area && menuValues.area.length === 3) {
+        // 区域筛选有值
+        newMenuStatus.area = true
+      } else if (item === 'mode' && menuValues.mode && menuValues.mode[0] !== 'null') {
+        // 方式筛选有值
+        newMenuStatus.mode = true
+      } else if (item === 'price' && menuValues.price && menuValues.price[0] !== 'null') {
+        // 租金筛选有值
+        newMenuStatus.price = true
+      } else if (item === 'mode' && menuValues.more && menuValues.more.length > 0) {
+        // 更多筛选有值
+        newMenuStatus.more = true
+      } else {
+        newMenuStatus[item] = false
+      }
+    })
+    
     this.setState({
       menuStatus: newMenuStatus,
       openType: type
