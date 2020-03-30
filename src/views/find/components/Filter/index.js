@@ -101,6 +101,7 @@ export default class Filter extends Component {
   render() {
     const { 
       openType, 
+      menuValues,
       filterData
       // 子属性的解构赋值
       // filterData: { area, subway, rentType, price }
@@ -112,6 +113,9 @@ export default class Filter extends Component {
     let data = null
     // 列表的列的控制
     let cols = 1
+    // 下拉列表的默认值
+    let defaultValue = menuValues[openType]
+
     switch(openType){
       case 'area':
         // 区域筛选数据
@@ -147,7 +151,7 @@ export default class Filter extends Component {
           {(openType === 'area' || openType === 'mode' || openType === 'price') && <FilterPicker data={data} openType={openType} cols={cols} onCancel={this.onCancel} onSave={this.onSave}/> }
 
           {/* 最后一个菜单对应的内容： */}
-          { openType === 'more' && <FilterMore onCancel={this.onCancel} onSave={this.onSave} openType={openType} data={data}/>}
+          { openType === 'more' && <FilterMore defaultValue={defaultValue} onCancel={this.onCancel} onSave={this.onSave} openType={openType} data={data}/>}
         </div>
       </div>
     )

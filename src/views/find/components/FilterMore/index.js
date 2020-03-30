@@ -8,7 +8,7 @@ export default class FilterMore extends Component {
 
   state = {
     // 选中的标签值
-    selectedValues: []
+    selectedValues: this.props.defaultValue? this.props.defaultValue: []
   }
 
   toggleSelect = (value) => {
