@@ -96,7 +96,10 @@ export default class Filter extends Component {
       openType: ''
     }, () => {
       // console.log(this.state.menuValues)
-      this.handleRequestParams(this.state.menuValues)
+      // 组装请求参数
+      const filter = this.handleRequestParams(this.state.menuValues)
+      // 把组装好的请求参数传递到父组件
+      this.props.onFilter(filter)
     })
   }
 
@@ -130,7 +133,7 @@ export default class Filter extends Component {
     if (menuValues.more && menuValues.more.length > 0) {
       filter.more = menuValues.more.join(',')
     }
-    console.log(filter)
+    return filter
   }
 
   render() {
