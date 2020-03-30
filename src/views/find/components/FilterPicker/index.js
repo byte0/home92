@@ -14,7 +14,7 @@ import FilterFooter from '../../../../components/FilterFooter'
 export default class FilterPicker extends Component {
 
   state = {
-    condition: ''
+    condition: this.props.defaultValue? this.props.defaultValue: null
   }
 
   handleCondition = (value) => {
