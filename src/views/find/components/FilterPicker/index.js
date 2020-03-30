@@ -24,6 +24,15 @@ export default class FilterPicker extends Component {
     })
   }
 
+  componentDidUpdate (prevProps) {
+    // 这里可以监听父组件传递的数据的变化
+    if (prevProps.defaultValue !== this.props.defaultValue) {
+      this.setState({
+        condition: this.props.defaultValue
+      })
+    }
+  }
+
   render() {
     const { data, cols, openType } = this.props
     return (
