@@ -5,11 +5,39 @@ import FilterFooter from '../../../../components/FilterFooter/index.js'
 import styles from './index.module.css'
 
 export default class FilterMore extends Component {
+
+  state = {
+    // 选中的标签值
+    selectedValues: []
+  }
+
+  toggleSelect = (value) => {
+    // 控制标签值的选中：判断selectedValues中是否包含当前值，如果有就删除，否则就添加
+    const newSelectedValues = [...this.state.selectedValues]
+    if (newSelectedValues.includes(value)) {
+      // 已经存在，删除
+      let index = newSelectedValues.findIndex(item => item === value)
+      newSelectedValues.splice(index, 1)
+    } else {
+      // 不存在，添加
+      newSelectedValues.push(value)
+    }
+    this.setState({
+      selectedValues: newSelectedValues
+    })
+  }
+
   // 渲染标签
   renderFilters(list) {
+    const { selectedValues } = this.state
     // 高亮类名： styles.tagActive
     return list.map(item => (
-      <span key={item.value} className={[styles.tag, styles.tagActive].join(' ')}>{item.label}</span>
+      <span 
+        onClick={this.toggleSelect.bind(this, item.value)}
+        key={item.value} 
+        className={[styles.tag, selectedValues.includes(item.value)? styles.tagActive: ''].join(' ')}>
+        {item.label}
+      </span>
     ))
   }
 
