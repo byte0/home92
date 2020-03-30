@@ -3,7 +3,8 @@ import React, { Component } from 'react'
 import FilterTitle from '../FilterTitle'
 import FilterPicker from '../FilterPicker'
 import FilterMore from '../FilterMore'
-
+import request from '../../../../utils/request.js'
+import { getCurrentCity } from '../../../../utils/config.js'
 import styles from './index.module.css'
 
 export default class Filter extends Component {
@@ -17,7 +18,27 @@ export default class Filter extends Component {
       more: false
     },
     // 当前点击的菜单类型
-    openType: ''
+    openType: '',
+    // 筛选条件的选项数据
+    filterData: {}
+  }
+
+  componentDidMount () {
+    this.loadFilterData()
+  }
+
+  // 获取筛选条件的选项数据
+  loadFilterData = async () => {
+    const city = await getCurrentCity()
+    const res = await request({
+      url: 'houses/condition',
+      params: {
+        id: city.value
+      }
+    })
+    this.setState({
+      filterData: res.body
+    })
   }
 
   // 修改对应菜单的高亮状态
