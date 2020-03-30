@@ -52,20 +52,21 @@ export default class Filter extends Component {
   changeStatus = (type) => {
     // console.log('change:' + type)
     // 先复制一份原有的数据
-    // let newMenuStatus = {...this.state.menuStatus}
-    // newMenuStatus[type] = true
-    // this.setState({
-    //   menuStatus: newMenuStatus
-    // })
-    // ------------------------------
+    let newMenuStatus = {...this.state.menuStatus}
+    newMenuStatus[type] = true
     this.setState({
-      menuStatus: {
-        ...this.state.menuStatus,
-        // 对象属性名称可以是动态的
-        [type]: true
-      },
+      menuStatus: newMenuStatus,
       openType: type
     })
+    // ------------------------------
+    // this.setState({
+    //   menuStatus: {
+    //     ...this.state.menuStatus,
+    //     // 对象属性名称可以是动态的
+    //     [type]: true
+    //   },
+    //   openType: type
+    // })
   }
 
   // 点击取消按钮时关闭下拉列表
@@ -94,8 +95,42 @@ export default class Filter extends Component {
       },
       openType: ''
     }, () => {
-      console.log(this.state.menuValues)
+      // console.log(this.state.menuValues)
+      this.handleRequestParams(this.state.menuValues)
     })
+  }
+
+  // 组装请求参数
+  handleRequestParams = (menuValues) => {
+    // 最终的请求参数
+    let filter = {}
+    // 1、区域筛选
+    if (menuValues.area && menuValues.area.length === 3) {
+      // 获取第一项信息：area 或者 subway
+      let key = menuValues.area[0]
+      // 获取条件值
+      let value = menuValues.area
+      if (value[2] === 'null') {
+        // 如果第三项值是null，那么第二项数据有效
+        filter[key] = value[1]
+      } else {
+        // 第三项数据有效
+        filter[key] = value[2]
+      }
+    }
+    // 2、方式筛选
+    if (menuValues.mode && menuValues.mode[0] !== 'null') {
+      filter.rentType = menuValues.mode[0]
+    }
+    // 3、租金筛选
+    if (menuValues.price && menuValues.price[0] !== 'null') {
+      filter.price = menuValues.price[0]
+    }
+    // 4、更多筛选
+    if (menuValues.more && menuValues.more.length > 0) {
+      filter.more = menuValues.more.join(',')
+    }
+    console.log(filter)
   }
 
   render() {
@@ -129,9 +164,11 @@ export default class Filter extends Component {
       case 'price':
         // 租金筛选数据
         data = price
+        break;
       case 'more':
         // 第4个筛选菜单
         data = {roomType, oriented, floor, characteristic}
+        break;
       default:
         break;  
     }
