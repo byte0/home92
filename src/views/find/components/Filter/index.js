@@ -95,8 +95,20 @@ export default class Filter extends Component {
 
   // 点击取消按钮时关闭下拉列表
   onCancel = () => {
+    // 点击取消按钮时控制当前点击的菜单高亮
+    const { menuStatus, menuValues, openType } = this.state
+    const newMenuStatus = {...menuStatus}
+    let value = menuValues[openType]
+    if (value) {
+      // 选中值就高亮
+      newMenuStatus[openType] = true
+    } else {
+      // 没选值不高亮
+      newMenuStatus[openType] = false
+    }
     this.setState({
-      openType: ''
+      openType: '',
+      menuStatus: newMenuStatus
     })
   }
 
