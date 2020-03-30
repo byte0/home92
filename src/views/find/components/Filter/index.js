@@ -147,7 +147,7 @@ export default class Filter extends Component {
           {(openType === 'area' || openType === 'mode' || openType === 'price') && <FilterPicker data={data} openType={openType} cols={cols} onCancel={this.onCancel} onSave={this.onSave}/> }
 
           {/* 最后一个菜单对应的内容： */}
-          { openType === 'more' && <FilterMore data={data}/>}
+          { openType === 'more' && <FilterMore onCancel={this.onCancel} onSave={this.onSave} openType={openType} data={data}/>}
         </div>
       </div>
     )
