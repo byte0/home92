@@ -95,11 +95,28 @@ const province = [
 // v-show 是否可以用到template标签上？
 
 export default class FilterPicker extends Component {
+
+  state = {
+    condition: ''
+  }
+
+  handleCondition = (value) => {
+    // 动态更新选中的值
+    console.log(value)
+    this.setState({
+      condition: value
+    })
+  }
+
   render() {
     return (
       <React.Fragment>
         {/* 选择器组件： */}
-        <PickerView data={province} value={null} cols={3} />
+        <PickerView 
+          data={province} 
+          onChange={this.handleCondition}
+          value={this.state.condition} 
+          cols={3} />
 
         {/* 底部按钮 */}
         <FilterFooter 
