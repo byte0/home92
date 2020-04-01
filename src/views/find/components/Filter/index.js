@@ -125,7 +125,8 @@ export default class Filter extends Component {
     // })
     // -----------------------------
     const newMenuStatus = {...this.state.menuStatus}
-    if (value) {
+    // 判断要足够充分
+    if (value && ((openType === 'area' && value.length === 3) || (openType === 'mode' && value[0] !== 'null') || (openType === 'price' && value[0] !== 'null'))) {
       // 有值高亮
       newMenuStatus[openType] = true
     } else {
