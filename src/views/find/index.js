@@ -55,6 +55,9 @@ class Find extends React.Component {
         houseList: [...this.state.houseList, ...res.body.list]
       }, () => {
         this.isFinished = true
+        // 默认情况render的重新触发有props和state的变化触发
+        // 数据更新成功后，手动触发render的重新渲染
+        this.forceUpdate()
         // 隐藏提示
         Toast.hide()
       })
@@ -187,7 +190,7 @@ class Find extends React.Component {
         {/*房源列表*/}
         {this.renderList()}
         {/*如果没有筛选出房源列表就提示没有房源*/}
-        {(this.state.houseList.length === 0 && !this.isFinished) && <NoHouse>没有符合条件的房源！</NoHouse>}
+        {(this.state.houseList.length === 0 && this.isFinished) && <NoHouse>没有符合条件的房源！</NoHouse>}
       </React.Fragment>
     )
   }
