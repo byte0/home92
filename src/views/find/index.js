@@ -2,13 +2,14 @@
   列表找房模块
 */
 import React from 'react'
-import { Flex } from 'antd-mobile'
+import { Flex, Toast } from 'antd-mobile'
 import { getCurrentCity } from '../../utils/config.js'
 import request from '../../utils/request.js'
 import './index.scss'
 import Filter from './components/Filter/index.js'
 import {List, AutoSizer, WindowScroller, InfiniteLoader} from 'react-virtualized'
 import HouseItem from '../../components/HouseItem/index.js'
+import NoHouse from '../../components/NoHouse/index.js'
 
 // 测试长列表假数据
 // const list = Array.from(new Array(50)).map((item, index) => {
@@ -25,12 +26,19 @@ class Find extends React.Component {
     // 房源列表数据
     houseList: [],
     // 请求参数
-    filter: {}
+    filter: {},
   }
+
+  // 判断接口调用是否成功
+  isFinished = true
   
   // 获取房源列表数据
   loadData = async (start, end) => {
     const { filter } = this.state
+    // 显示加载提示
+    Toast.loading('正在加载...', 0)
+    // 发送请求时，修改状态表示正在请求
+    this.isFinished = false
     const city = await getCurrentCity()
     return request({
       url: 'houses',
@@ -38,13 +46,17 @@ class Find extends React.Component {
         ...filter,
         cityId: city.value,
         start: start? start: 1,
-        end: end? end: 10
+        end: end? end: 20
       }
     }).then(res => {
       this.setState({
         count: res.body.count,
         // 分页加载的数据进行追加操作
         houseList: [...this.state.houseList, ...res.body.list]
+      }, () => {
+        this.isFinished = true
+        // 隐藏提示
+        Toast.hide()
       })
     })
   }
@@ -52,7 +64,10 @@ class Find extends React.Component {
   // 获取组装好的请求参数
   onFilter = (filter) => {
     this.setState({
-      filter: filter
+      filter: filter,
+      // 切换条件时，把原有的数据清空
+      houseList: [],
+      count: 0
     }, () => {
       this.loadData()
     })
@@ -64,6 +79,7 @@ class Find extends React.Component {
         cityName: res.label
       })
     })
+    this.loadData()
   }
 
   rowRenderer = ({key, style, index}) => {
@@ -118,7 +134,7 @@ class Find extends React.Component {
                             isScrolling={isScrolling}
                             onScroll={onChildScroll}
                             scrollTop={scrollTop}
-                            rowHeight={140}
+                            rowHeight={120}
                             rowCount={houseList.length}
                             rowRenderer={this.rowRenderer}
                             />
@@ -170,6 +186,8 @@ class Find extends React.Component {
         <Filter onFilter={this.onFilter}/>
         {/*房源列表*/}
         {this.renderList()}
+        {/*如果没有筛选出房源列表就提示没有房源*/}
+        {(this.state.houseList.length === 0 && !this.isFinished) && <NoHouse>没有符合条件的房源！</NoHouse>}
       </React.Fragment>
     )
   }
