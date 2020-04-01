@@ -72,6 +72,9 @@ class Find extends React.Component {
       houseList: [],
       count: 0
     }, () => {
+      // 隐藏没有房源的提示
+      this.isFinished = false
+      this.forceUpdate()
       this.loadData()
     })
   }

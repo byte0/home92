@@ -1,9 +1,7 @@
 import React, { Component } from 'react'
-
 import { PickerView } from 'antd-mobile'
-
 import FilterFooter from '../../../../components/FilterFooter'
-
+import styles from './index.module.css'
 // 组件的模板必须有唯一的跟节点
 // <React.Fragment></React.Fragment> 主要用于作为组件的跟节点，但是本身不会渲染出来
 // <React.Fragment></React.Fragment> 可以简写为 <></>
@@ -36,7 +34,7 @@ export default class FilterPicker extends Component {
   render() {
     const { data, cols, openType } = this.props
     return (
-      <React.Fragment>
+      <div className={styles.conditionList}>
         {/* 选择器组件： */}
         <PickerView 
           data={data} 
@@ -50,7 +48,7 @@ export default class FilterPicker extends Component {
             this.props.onSave(openType, this.state.condition)
           }}
           onCancel={this.props.onCancel}/>
-      </React.Fragment>
+      </div>
     )
   }
 }
