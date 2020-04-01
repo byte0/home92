@@ -30,8 +30,12 @@ export default class Filter extends Component {
     filterData: {}
   }
 
+  bodyDom = null
+
   componentDidMount () {
     this.loadFilterData()
+    // 组件加载时获取body元素
+    this.bodyDom = window.document.body
   }
 
   // 获取筛选条件的选项数据
@@ -50,6 +54,8 @@ export default class Filter extends Component {
 
   // 修改对应菜单的高亮状态
   changeStatus = (type) => {
+    // 列表展示时，防止页面滚动
+    this.bodyDom.className = 'scrollAuto'
     // console.log('change:' + type)
     // 完善菜单点击的高亮控制逻辑
     // 先复制一份原有的数据
@@ -95,6 +101,8 @@ export default class Filter extends Component {
 
   // 点击取消按钮时关闭下拉列表
   onCancel = () => {
+    // 下拉列表隐藏时，恢复页面的滚动
+    this.bodyDom.className = ''
     // 点击取消按钮时控制当前点击的菜单高亮
     const { menuStatus, menuValues, openType } = this.state
     const newMenuStatus = {...menuStatus}
@@ -114,6 +122,8 @@ export default class Filter extends Component {
 
   // 点击确定按钮时关闭下拉列表
   onSave= (openType, value) => {
+    // 下拉列表隐藏时，恢复页面的滚动
+    this.bodyDom.className = ''
     // 把子组件传递过来的选项值保存到menuValues当中
     // let newMenuValues = {...this.state.menuValues}
     // newMenuValues[openType] = value
