@@ -1,18 +1,13 @@
 import React from 'react'
-
+import { BASE_IMG_URL } from '../../utils/config.js'
 import PropTypes from 'prop-types'
-// props
-// 1. cheldren -> 获取组件动态内容  <Child>adadsd</Child>
-// 2. defautProps -> 为组件设置默认属性  num
-// 3. prop-types -> 为组件的属性提供默认类型  age
-
 import styles from './index.module.css'
 
-function HouseItem({ src, title, desc, tags, price, onClick, style }) {
+function HouseItem({ houseImg, title, desc, tags, price, onClick, style }) {
   return (
     <div className={styles.house} onClick={onClick} style={style}>
       <div className={styles.imgWrap}>
-        <img className={styles.img} src={src} alt="" />
+        <img className={styles.img} src={BASE_IMG_URL + houseImg} alt="" />
       </div>
       <div className={styles.content}>
         <h3 className={styles.title}>{title}</h3>
@@ -39,34 +34,14 @@ function HouseItem({ src, title, desc, tags, price, onClick, style }) {
   )
 }
 
-// export default {
-//   // props:["list"]
-//   props:{
-//     num:{
-//       type:Array,
-//       default:()=>[]
-//     }
-//   }
-
-// }
-
-// var a = 10
-// var arr = 1000
-
-// arr.map(()=>{})
-
-// 类名.属性 -> propTypes是一个类属性->静态属性
-// 对比->  类.方法||属性  <-> 对象.方法||属性
-// js->伪面向对象语言
-// 面向对象: JAVA OC SWIFT 等 类的概念class
-// 面向过程: C
-
+// 对组件的传入的属性进行类型检测
+// 如果传入的属性值，不符合验证规则，就进行警告
 HouseItem.propTypes = {
-  // src: PropTypes.string,
-  // title: PropTypes.string,
-  // desc: PropTypes.string,
-  // tags: PropTypes.array.isRequired,
-  // price: PropTypes.number,
+  // src: PropTypes.string.isRequired
+  title: PropTypes.string,
+  desc: PropTypes.string,
+  tags: PropTypes.array,
+  price: PropTypes.number
   // onClick: PropTypes.func
 }
 
