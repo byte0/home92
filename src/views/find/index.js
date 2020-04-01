@@ -8,6 +8,8 @@ import request from '../../utils/request.js'
 import './index.scss'
 import Filter from './components/Filter/index.js'
 import {List, AutoSizer} from 'react-virtualized'
+import HouseItem from '../../components/HouseItem/index.js'
+
 // 测试长列表假数据
 const list = Array.from(new Array(50)).map((item, index) => {
   return `第${index}条数据`
@@ -64,26 +66,35 @@ class Find extends React.Component {
 
   rowRenderer = ({key, style, index}) => {
     // 渲染列表条目
-    let item = list[index]
-    return <div key={key} style={style}>{item}</div>
+    // let item = list[index]
+    // 只有列表数据获取成功后才渲染List组件
+    const { houseList } = this.state
+    const item = houseList[index]
+    // return <div key={key} style={style}>123</div>
+    return <HouseItem key={key} style={style} {...item}/>
   }
 
   // 渲染长列表组件
   renderList = () => {
+    const { houseList } = this.state
     return (
-      <AutoSizer>{({width, height}) => {
-        console.log(width, height)
-        return (
-          <List
-            className='houseList'
-            width={width}
-            height={height}
-            rowHeight={20}
-            rowCount={list.length}
-            rowRenderer={this.rowRenderer}
-            />
-        )
-      }}</AutoSizer>
+      <AutoSizer>
+        {({width, height}) => {
+          // 必须保证获取列表数据后才进行List的渲染
+          if (houseList.length > 0) {
+            return (
+              <List
+                className='houseList'
+                width={width}
+                height={height}
+                rowHeight={120}
+                rowCount={list.length}
+                rowRenderer={this.rowRenderer}
+                />
+            )
+          } 
+        }}
+      </AutoSizer>
     )
   }
 
