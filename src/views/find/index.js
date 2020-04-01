@@ -7,13 +7,13 @@ import { getCurrentCity } from '../../utils/config.js'
 import request from '../../utils/request.js'
 import './index.scss'
 import Filter from './components/Filter/index.js'
-import {List, AutoSizer} from 'react-virtualized'
+import {List, AutoSizer, WindowScroller} from 'react-virtualized'
 import HouseItem from '../../components/HouseItem/index.js'
 
 // 测试长列表假数据
-const list = Array.from(new Array(50)).map((item, index) => {
-  return `第${index}条数据`
-})
+// const list = Array.from(new Array(50)).map((item, index) => {
+//   return `第${index}条数据`
+// })
 
 class Find extends React.Component {
 
@@ -78,23 +78,35 @@ class Find extends React.Component {
   renderList = () => {
     const { houseList } = this.state
     return (
-      <AutoSizer>
-        {({width, height}) => {
-          // 必须保证获取列表数据后才进行List的渲染
-          if (houseList.length > 0) {
-            return (
-              <List
-                className='houseList'
-                width={width}
-                height={height}
-                rowHeight={120}
-                rowCount={list.length}
-                rowRenderer={this.rowRenderer}
-                />
-            )
-          } 
+      <WindowScroller>
+        {({height, isScrolling, onChildScroll, scrollTop}) => {
+          console.log(height)
+          return (
+            <AutoSizer>
+              {({width}) => {
+                // 必须保证获取列表数据后才进行List的渲染
+                if (houseList.length > 0) {
+                  return (
+                    <List
+                      autoHeight
+                      className='houseList'
+                      width={width}
+                      height={height}
+                      isScrolling={isScrolling}
+                      onScroll={onChildScroll}
+                      scrollTop={scrollTop}
+                      rowHeight={120}
+                      rowCount={houseList.length}
+                      rowRenderer={this.rowRenderer}
+                      />
+                  )
+                } 
+              }}
+            </AutoSizer>
+          )
         }}
-      </AutoSizer>
+      </WindowScroller>
+      
     )
   }
 
