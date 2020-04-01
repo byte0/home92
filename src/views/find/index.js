@@ -10,6 +10,7 @@ import Filter from './components/Filter/index.js'
 import {List, AutoSizer, WindowScroller, InfiniteLoader} from 'react-virtualized'
 import HouseItem from '../../components/HouseItem/index.js'
 import NoHouse from '../../components/NoHouse/index.js'
+import Sticky from '../../components/Sticky/index.js'
 
 // 测试长列表假数据
 // const list = Array.from(new Array(50)).map((item, index) => {
@@ -189,7 +190,9 @@ class Find extends React.Component {
           </Flex>
         </Flex>
         {/*筛选条件*/}
-        <Filter onFilter={this.onFilter}/>
+        <Sticky height={40}>
+          <Filter onFilter={this.onFilter}/>
+        </Sticky>
         {/*房源列表*/}
         {this.renderList()}
         {/*如果没有筛选出房源列表就提示没有房源*/}
