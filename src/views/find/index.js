@@ -7,6 +7,11 @@ import { getCurrentCity } from '../../utils/config.js'
 import request from '../../utils/request.js'
 import './index.scss'
 import Filter from './components/Filter/index.js'
+import {List, AutoSizer} from 'react-virtualized'
+// 测试长列表假数据
+const list = Array.from(new Array(50)).map((item, index) => {
+  return `第${index}条数据`
+})
 
 class Find extends React.Component {
 
@@ -57,9 +62,34 @@ class Find extends React.Component {
     })
   }
 
+  rowRenderer = ({key, style, index}) => {
+    // 渲染列表条目
+    let item = list[index]
+    return <div key={key} style={style}>{item}</div>
+  }
+
+  // 渲染长列表组件
+  renderList = () => {
+    return (
+      <AutoSizer>{({width, height}) => {
+        console.log(width, height)
+        return (
+          <List
+            className='houseList'
+            width={width}
+            height={height}
+            rowHeight={20}
+            rowCount={list.length}
+            rowRenderer={this.rowRenderer}
+            />
+        )
+      }}</AutoSizer>
+    )
+  }
+
   render () {
     return (
-      <div>
+      <React.Fragment>
         {/*导航栏*/}
         <Flex className='header'>
           <i onClick={() => {
@@ -90,7 +120,8 @@ class Find extends React.Component {
         {/*筛选条件*/}
         <Filter onFilter={this.onFilter}/>
         {/*房源列表*/}
-      </div>
+        {this.renderList()}
+      </React.Fragment>
     )
   }
 }

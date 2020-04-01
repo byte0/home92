@@ -4,6 +4,9 @@ body {
     color: #333;
     background-color: #fff;
 }
+html body {
+    background-color: #fff;
+}
 * {
     touch-action: pan-y;
     /* touch-action: none; */
