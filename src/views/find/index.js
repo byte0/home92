@@ -7,7 +7,7 @@ import { getCurrentCity } from '../../utils/config.js'
 import request from '../../utils/request.js'
 import './index.scss'
 import Filter from './components/Filter/index.js'
-import {List, AutoSizer, WindowScroller} from 'react-virtualized'
+import {List, AutoSizer, WindowScroller, InfiniteLoader} from 'react-virtualized'
 import HouseItem from '../../components/HouseItem/index.js'
 
 // 测试长列表假数据
@@ -29,21 +29,23 @@ class Find extends React.Component {
   }
   
   // 获取房源列表数据
-  loadData = async () => {
+  loadData = async (start, end) => {
     const { filter } = this.state
     const city = await getCurrentCity()
-    const res = await request({
+    return request({
       url: 'houses',
       params: {
         ...filter,
         cityId: city.value,
-        start: 1,
-        end: 10
+        start: start? start: 1,
+        end: end? end: 10
       }
-    })
-    this.setState({
-      count: res.body.count,
-      houseList: res.body.list
+    }).then(res => {
+      this.setState({
+        count: res.body.count,
+        // 分页加载的数据进行追加操作
+        houseList: [...this.state.houseList, ...res.body.list]
+      })
     })
   }
 
@@ -74,38 +76,62 @@ class Find extends React.Component {
     return <HouseItem key={key} style={style} {...item}/>
   }
 
+  // 当前行数据是否已经加载成功
+  isRowLoaded = ({ index }) => {
+    // 双叹号表示布尔值
+    return !!this.state.houseList[index]
+  }
+
+  // 加载下一页数据(必须返回Promise对象)
+  loadMoreRows = ({ startIndex, stopIndex }) => {
+    // startIndex表示从第几条数据开始查询
+    // stopIndex表示查询到第几条数据
+    return this.loadData(startIndex, stopIndex)
+  }
+
   // 渲染长列表组件
   renderList = () => {
-    const { houseList } = this.state
+    const { houseList, count } = this.state
     return (
-      <WindowScroller>
-        {({height, isScrolling, onChildScroll, scrollTop}) => {
-          console.log(height)
+      <InfiniteLoader
+        isRowLoaded={this.isRowLoaded}
+        loadMoreRows={this.loadMoreRows}
+        rowCount={count}
+        >
+        {({onRowsRendered, registerChild}) => {
           return (
-            <AutoSizer>
-              {({width}) => {
-                // 必须保证获取列表数据后才进行List的渲染
-                if (houseList.length > 0) {
-                  return (
-                    <List
-                      autoHeight
-                      className='houseList'
-                      width={width}
-                      height={height}
-                      isScrolling={isScrolling}
-                      onScroll={onChildScroll}
-                      scrollTop={scrollTop}
-                      rowHeight={120}
-                      rowCount={houseList.length}
-                      rowRenderer={this.rowRenderer}
-                      />
-                  )
-                } 
+            <WindowScroller>
+              {({height, isScrolling, onChildScroll, scrollTop}) => {
+                return (
+                  <AutoSizer>
+                    {({width}) => {
+                      // 必须保证获取列表数据后才进行List的渲染
+                      if (houseList.length > 0) {
+                        return (
+                          <List
+                            autoHeight
+                            className='houseList'
+                            onRowsRendered={onRowsRendered}
+                            ref={registerChild}
+                            width={width}
+                            height={height}
+                            isScrolling={isScrolling}
+                            onScroll={onChildScroll}
+                            scrollTop={scrollTop}
+                            rowHeight={140}
+                            rowCount={houseList.length}
+                            rowRenderer={this.rowRenderer}
+                            />
+                        )
+                      } 
+                    }}
+                  </AutoSizer>
+                )
               }}
-            </AutoSizer>
+            </WindowScroller>
           )
         }}
-      </WindowScroller>
+      </InfiniteLoader>
       
     )
   }
