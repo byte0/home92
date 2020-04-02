@@ -5,6 +5,7 @@ import styles from './index.module.css'
 import request from '../../utils/request.js'
 import { withFormik } from 'formik'
 import * as yup from 'yup'
+import { setToken } from '../../utils/token.js'
 
 // 验证规则：
 const REG_UNAME = /^[a-zA-Z_\d]{5,9}$/
@@ -192,7 +193,8 @@ export default withFormik({
     })
     if (res.status === 200) {
       // 登录成功，缓存token，跳转到主页
-      sessionStorage.setItem('mytoken', res.body.token)
+      // sessionStorage.setItem('mytoken', res.body.token)
+      setToken(res.body.token)
       login.props.history.push('/home')
     } else {
       // 登录失败，进行提示

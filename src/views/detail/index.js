@@ -5,7 +5,7 @@ import styles from './index.module.css'
 import HousePackage from '../../components/HousePackage'
 import request from '../../utils/request.js'
 import { BASE_IMG_URL } from '../../utils/config.js'
-
+import { getToken } from '../../utils/token.js'
 // 猜你喜欢
 const recommendHouses = [
   {
@@ -129,7 +129,8 @@ export default class HouseDetail extends Component {
   // 控制房源的收藏效果
   handleFavorite = () => {
     // 先判断用户是否已经登录，如果没有登录就跳转到登录页面，如果登录了进行收藏
-    const token = sessionStorage.getItem('mytoken')
+    // const token = sessionStorage.getItem('mytoken')
+    const token = getToken()
     if (!token) {
       // 没有登录，跳转到登录页
       alert('提示', '登录后才能收藏房源，是否去登录?', [
