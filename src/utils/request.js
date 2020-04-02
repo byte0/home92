@@ -11,7 +11,7 @@ axios.interceptors.response.use(function (response) {
 })
 
 // 通过参数的解构赋值获取参数信息
-export default ({method = 'get', url, data, params}) => {
+export default ({method = 'get', url, data, params, headers}) => {
   // return的结果是Promise实例对象
   return axios({
     // 请求基准路径
@@ -23,6 +23,8 @@ export default ({method = 'get', url, data, params}) => {
     // post请求参数
     data: data,
     // get请求参数
-    params: params
+    params: params,
+    // 请求头
+    headers: headers
   })  
 }

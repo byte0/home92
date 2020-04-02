@@ -5,7 +5,8 @@ import { Grid, Button } from 'antd-mobile'
 
 // import { BASE_URL } from '../../utils'
 import { BASE_IMG_URL } from '../../utils/config.js'
-
+import request from '../../utils/request.js'
+import { getToken } from '../../utils/token.js'
 import styles from './index.module.css'
 
 // 菜单数据
@@ -26,6 +27,28 @@ const menus = [
 const DEFAULT_AVATAR = BASE_IMG_URL + '/img/profile/avatar.png'
 
 export default class Profile extends Component {
+
+  state = {
+    info: null
+  }
+
+  loadUserInfo = async () => {
+    // 加载用户相关信息
+    const res = await request({
+      url: '/user',
+      headers: {
+        Authorization: getToken()
+      }
+    })
+    this.setState({
+      info: res.body
+    })
+  }
+
+  componentDidMount () {
+    this.loadUserInfo()
+  }
+
   render() {
     const { history } = this.props
 
