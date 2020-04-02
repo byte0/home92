@@ -197,6 +197,11 @@ class Find extends React.Component {
         {this.renderList()}
         {/*如果没有筛选出房源列表就提示没有房源*/}
         {(this.state.houseList.length === 0 && this.isFinished) && <NoHouse>没有符合条件的房源！</NoHouse>}
+        {/*控制回到顶部*/}
+        <div onClick={() => {
+          // 控制页面回到顶部
+          window.scrollTo(0, 0)
+        }} className='toTop'>顶部</div>
       </React.Fragment>
     )
   }

@@ -64,3 +64,16 @@
 .houseList {
   padding-bottom: 50px;
 }
+
+.toTop {
+  position: fixed;
+  border-radius: 25px;
+  width: 50px;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  color: #fff;
+  right: 10px;
+  bottom: 60px;
+  background: rgba(0,0,0,0.2);
+}
