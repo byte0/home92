@@ -3,6 +3,7 @@ import { Flex, WingBlank, WhiteSpace, NavBar, Toast } from 'antd-mobile'
 import { Link } from 'react-router-dom'
 import styles from './index.module.css'
 import request from '../../utils/request.js'
+import { withFormik } from 'formik'
 
 // 验证规则：
 // const REG_UNAME = /^[a-zA-Z_\d]{5,8}$/
@@ -10,40 +11,48 @@ import request from '../../utils/request.js'
 
 class Login extends Component {
 
-  state = {
-    username: '',
-    password: ''
-  }
+  // state = {
+  //   username: '',
+  //   password: ''
+  // }
 
-  handleItem = (e) => {
-    this.setState({
-      [e.target.name]: e.target.value
-    })
-  }
+  // handleItem = (e) => {
+  //   this.setState({
+  //     [e.target.name]: e.target.value
+  //   })
+  // }
 
-  handleSubmit = async (e) => {
-    // 禁止默认的表单提交
-    e.preventDefault()
-    const res = await request({
-      url: '/user/login',
-      method: 'post',
-      data: {
-        username: this.state.username,
-        password: this.state.password
-      }
-    })
-    if (res.status === 200) {
-      // 登录成功，缓存token，跳转到主页
-      sessionStorage.setItem('mytoken', res.body.token)
-      this.props.history.push('/home')
-    } else {
-      // 登录失败，进行提示
-      Toast.info(res.description)
-    }
-  }
+  // handleSubmit = async (e) => {
+  //   // 禁止默认的表单提交
+  //   e.preventDefault()
+  //   const res = await request({
+  //     url: '/user/login',
+  //     method: 'post',
+  //     data: {
+  //       username: this.state.username,
+  //       password: this.state.password
+  //     }
+  //   })
+  //   if (res.status === 200) {
+  //     // 登录成功，缓存token，跳转到主页
+  //     sessionStorage.setItem('mytoken', res.body.token)
+  //     this.props.history.push('/home')
+  //   } else {
+  //     // 登录失败，进行提示
+  //     Toast.info(res.description)
+  //   }
+  // }
 
   render() {
-    const { username, password } = this.state
+    // const { username, password } = this.state
+    const {
+      // 表单输入域的状态
+      values,
+      // 表单提交的事件
+      handleSubmit,
+      // 表单输入域监听事件
+      handleChange
+    } = this.props
     return (
       <div className={styles.root}>
         {/* 顶部导航 */}
@@ -59,8 +68,8 @@ class Login extends Component {
               <input
                 className={styles.input}
                 name="username"
-                value={username}
-                onChange={this.handleItem}
+                value={values.username}
+                onChange={handleChange}
                 placeholder="请输入账号"
               />
             </div>
@@ -70,8 +79,8 @@ class Login extends Component {
               <input
                 className={styles.input}
                 name="password"
-                value={password}
-                onChange={this.handleItem}
+                value={values.password}
+                onChange={handleChange}
                 type="password"
                 placeholder="请输入密码"
               />
@@ -79,7 +88,7 @@ class Login extends Component {
             {/* 长度为5到12位，只能出现数字、字母、下划线 */}
             {/* <div className={styles.error}>账号为必填项</div> */}
             <div className={styles.formSubmit}>
-              <button onClick={this.handleSubmit} className={styles.submit} type="submit">
+              <button onClick={handleSubmit} className={styles.submit} type="submit">
                 登 录
               </button>
             </div>
@@ -95,4 +104,32 @@ class Login extends Component {
   }
 }
 
-export default Login
+// export default Login
+// withFormik作用：向Login组件注入props
+export default withFormik({
+  // 提供表单输入域状态
+  mapPropsToValues: () => ({username:'', password: ''}),
+  // 表单提交的动作
+  handleSubmit: async (values, login) => {
+    // 参数values其实就是表单输入的最新数据
+    // 参数login表示组件的实例对象
+    // console.log(values)
+    // 这里用于实现登录功能
+    const res = await request({
+      url: '/user/login',
+      method: 'post',
+      data: {
+        username: values.username,
+        password: values.password
+      }
+    })
+    if (res.status === 200) {
+      // 登录成功，缓存token，跳转到主页
+      sessionStorage.setItem('mytoken', res.body.token)
+      login.props.history.push('/home')
+    } else {
+      // 登录失败，进行提示
+      Toast.info(res.description)
+    }
+  }
+})(Login)
