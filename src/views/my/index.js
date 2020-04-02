@@ -51,6 +51,7 @@ export default class Profile extends Component {
 
   render() {
     const { history } = this.props
+    const { info } = this.state
 
     return (
       <div className={styles.root}>
@@ -66,9 +67,10 @@ export default class Profile extends Component {
               <img className={styles.avatar} src={DEFAULT_AVATAR} alt="icon" />
             </div>
             <div className={styles.user}>
-              <div className={styles.name}>游客</div>
+              
               {/* 登录后展示： */}
-              {/* <>
+              { info?(<React.Fragment>
+                <div className={styles.name}>{info.nickname}</div>
                 <div className={styles.auth}>
                   <span onClick={this.logout}>退出</span>
                 </div>
@@ -78,19 +80,21 @@ export default class Profile extends Component {
                     <i className="iconfont icon-arrow" />
                   </span>
                 </div>
-              </> */}
-
-              {/* 未登录展示： */}
-              <div className={styles.edit}>
-                <Button
-                  type="primary"
-                  size="small"
-                  inline
-                  onClick={() => history.push('/login')}
-                >
-                  去登录
-                </Button>
-              </div>
+                </React.Fragment>): (
+                <React.Fragment>
+                  <div className={styles.name}>游客</div>
+                  <div className={styles.edit}>
+                    <Button
+                      type="primary"
+                      size="small"
+                      inline
+                      onClick={() => history.push('/login')}
+                    >
+                      去登录
+                    </Button>
+                  </div>
+                </React.Fragment>
+              )}
             </div>
           </div>
         </div>
