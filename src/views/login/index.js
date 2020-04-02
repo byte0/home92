@@ -4,9 +4,10 @@ import { Link } from 'react-router-dom'
 import styles from './index.module.css'
 import request from '../../utils/request.js'
 import { withFormik } from 'formik'
+import * as yup from 'yup'
 
 // 验证规则：
-const REG_UNAME = /^[a-zA-Z_\d]{5,8}$/
+const REG_UNAME = /^[a-zA-Z_\d]{5,9}$/
 const REG_PWD = /^[a-zA-Z_\d]{5,12}$/
 
 // function Form (props) {
@@ -151,26 +152,30 @@ export default withFormik({
   // 提供表单输入域状态
   mapPropsToValues: () => ({username:'', password: ''}),
   // 实现表单验证
-  validate: (values) => {
-    // 参数values表示表单的数据
-    const errors = {}
+  // validate: (values) => {
+  //   // 参数values表示表单的数据
+  //   const errors = {}
     
-    if (!values.username) {
-      // 用户名是否为空
-      errors.username = '用户名不能为空'
-    } else if (!REG_UNAME.test(values.username)) {
-      errors.username = '用户名必须为5-8位的字符串'
-    }
+  //   if (!values.username) {
+  //     // 用户名是否为空
+  //     errors.username = '用户名不能为空'
+  //   } else if (!REG_UNAME.test(values.username)) {
+  //     errors.username = '用户名必须为5-8位的字符串'
+  //   }
 
-    if (!values.password) {
-      // 密码不能为空
-      errors.password = '密码不能为空'
-    } else if (!REG_PWD.test(values.password)) {
-      errors.password = '密码必须为5-12位的字符串'
-    }
+  //   if (!values.password) {
+  //     // 密码不能为空
+  //     errors.password = '密码不能为空'
+  //   } else if (!REG_PWD.test(values.password)) {
+  //     errors.password = '密码必须为5-12位的字符串'
+  //   }
 
-    return errors
-  },
+  //   return errors
+  // },
+  validationSchema: yup.object().shape({
+    username: yup.string().required('用户名不能为空').matches(REG_UNAME, '用户名必须为5-8位的字符串'),
+    password: yup.string().required('密码不能为空').matches(REG_PWD, '密码必须为5-12位的字符串')
+  }),
   // 表单提交的动作
   handleSubmit: async (values, login) => {
     // 参数values其实就是表单输入的最新数据
