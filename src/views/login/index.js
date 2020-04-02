@@ -6,8 +6,8 @@ import request from '../../utils/request.js'
 import { withFormik } from 'formik'
 
 // 验证规则：
-// const REG_UNAME = /^[a-zA-Z_\d]{5,8}$/
-// const REG_PWD = /^[a-zA-Z_\d]{5,12}$/
+const REG_UNAME = /^[a-zA-Z_\d]{5,8}$/
+const REG_PWD = /^[a-zA-Z_\d]{5,12}$/
 
 // function Form (props) {
 //   return (
@@ -84,7 +84,13 @@ class Login extends Component {
       // 表单提交的事件
       handleSubmit,
       // 表单输入域监听事件
-      handleChange
+      handleChange,
+      // 验证的错误提示
+      errors,
+      // 输入域是否被操作过
+      touched,
+      // 输入域验证触发的条件
+      handleBlur
     } = this.props
     return (
       <div className={styles.root}>
@@ -102,13 +108,14 @@ class Login extends Component {
               <input
                 className={styles.input}
                 name="username"
+                onBlur={handleBlur}
                 value={values.username}
                 onChange={handleChange}
                 placeholder="请输入账号"
               />
             </div>
             {/* 长度为5到8位，只能出现数字、字母、下划线 */}
-            {/* <div className={styles.error}>账号为必填项</div> */}
+            {touched.username && errors.username && <div className={styles.error}>{errors.username}</div>}
             <div className={styles.formItem}>
               <input
                 className={styles.input}
@@ -120,7 +127,7 @@ class Login extends Component {
               />
             </div>
             {/* 长度为5到12位，只能出现数字、字母、下划线 */}
-            {/* <div className={styles.error}>账号为必填项</div> */}
+            {touched.password && errors.password && <div className={styles.error}>{errors.password}</div>}
             <div className={styles.formSubmit}>
               <button onClick={handleSubmit} className={styles.submit} type="submit">
                 登 录
@@ -143,6 +150,27 @@ class Login extends Component {
 export default withFormik({
   // 提供表单输入域状态
   mapPropsToValues: () => ({username:'', password: ''}),
+  // 实现表单验证
+  validate: (values) => {
+    // 参数values表示表单的数据
+    const errors = {}
+    
+    if (!values.username) {
+      // 用户名是否为空
+      errors.username = '用户名不能为空'
+    } else if (!REG_UNAME.test(values.username)) {
+      errors.username = '用户名必须为5-8位的字符串'
+    }
+
+    if (!values.password) {
+      // 密码不能为空
+      errors.password = '密码不能为空'
+    } else if (!REG_PWD.test(values.password)) {
+      errors.password = '密码必须为5-12位的字符串'
+    }
+
+    return errors
+  },
   // 表单提交的动作
   handleSubmit: async (values, login) => {
     // 参数values其实就是表单输入的最新数据
