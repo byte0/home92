@@ -9,6 +9,39 @@ import { withFormik } from 'formik'
 // const REG_UNAME = /^[a-zA-Z_\d]{5,8}$/
 // const REG_PWD = /^[a-zA-Z_\d]{5,12}$/
 
+// function Form (props) {
+//   return (
+//     <div>
+//       <div>测试withFormic</div>
+//       <div>{props.msg}</div>
+//       <div>{props.info}</div>
+//       <div>{props.username}</div>
+//       <div>{props.password}</div>
+//     </div>
+//   )
+// }
+
+// function withForm (obj) {
+//   const ret = obj.foo()
+//   // 本质上返回的这个函数才是高阶组件HOC
+//   return function (Component) {
+//     return class extends React.Component {
+//       render () {
+//         return (
+//           <Component {...obj} {...ret}/>
+//         )
+//       }
+//     }
+//   }
+// }
+
+// withForm的作用：将参数（对象）注入到Form组件中
+// const WrapForm = withForm({
+//   msg: 'nihao',
+//   info: 'hello',
+//   foo: () => ({username: 'lisi', password: '123'})
+// })(Form)
+
 class Login extends Component {
 
   // state = {
@@ -55,6 +88,7 @@ class Login extends Component {
     } = this.props
     return (
       <div className={styles.root}>
+        {/*<WrapForm/>*/}
         {/* 顶部导航 */}
         <NavBar className={styles.navHeader} mode="dark">
           账号登录
