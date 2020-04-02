@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Carousel, Flex, NavBar, Icon } from 'antd-mobile'
+import { Carousel, Flex, NavBar, Icon, Modal } from 'antd-mobile'
 import HouseItem from '../../components/HouseItem'
 import styles from './index.module.css'
 import HousePackage from '../../components/HousePackage'
@@ -52,7 +52,7 @@ const labelStyle = {
   userSelect: 'none'
 }
 
-// const alert = Modal.alert
+const alert = Modal.alert
 
 export default class HouseDetail extends Component {
   state = {
@@ -109,7 +109,7 @@ export default class HouseDetail extends Component {
       收藏房源：
 
       1 给收藏按钮绑定单击事件，创建方法 handleFavorite 作为事件处理程序。
-      2 调用 isAuth 方法，判断是否登录。
+      2 通过token，判断是否登录。
       3 如果未登录，则使用 Modal.alert 提示用户是否去登录。
       4 如果点击取消，则不做任何操作。
       5 如果点击去登录，就跳转到登录页面，同时传递 state（登录后，再回到房源收藏页面）。
@@ -126,6 +126,25 @@ export default class HouseDetail extends Component {
         }
       ])
     */
+  // 控制房源的收藏效果
+  handleFavorite = () => {
+    // 先判断用户是否已经登录，如果没有登录就跳转到登录页面，如果登录了进行收藏
+    const token = sessionStorage.getItem('mytoken')
+    if (!token) {
+      // 没有登录，跳转到登录页
+      alert('提示', '登录后才能收藏房源，是否去登录?', [
+        { text: '取消' },
+        {
+          text: '去登录',
+          onPress: () => {
+            // 跳转到登录页
+            this.props.history.push('/login')
+          }
+        }
+      ])
+    }
+  }
+
 
   // 获取房屋详细信息
   async getHouseDetail(id) {
