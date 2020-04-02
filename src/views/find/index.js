@@ -96,7 +96,10 @@ class Find extends React.Component {
     const { houseList } = this.state
     const item = houseList[index]
     // return <div key={key} style={style}>123</div>
-    return <HouseItem key={key} style={style} {...item}/>
+    return <HouseItem onClick={() => {
+      // 点击列表条目时，跳转的房源的详情页面
+      this.props.history.push('/detail', {id: item.houseCode})
+    }} key={key} style={style} {...item}/>
   }
 
   // 当前行数据是否已经加载成功
