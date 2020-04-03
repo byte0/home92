@@ -54,7 +54,8 @@ export default class Search extends Component {
   handleJump = (e) => {
     const {id, name} = e.target.dataset
     // 跳回到发布房源表单页面并且携带参数
-    this.props.history.push('/rent/add', {id, name})
+    // replace方法不会向浏览器历史队列里添加访问记录
+    this.props.history.replace('/rent/add', {id, name})
   }
 
   render() {

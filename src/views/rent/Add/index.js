@@ -81,9 +81,11 @@ export default class RentAdd extends Component {
 
   componentDidMount () {
     // 选择小区名称
-    this.setState({
-      community: this.props.location.state
-    })
+    if (this.props.location.state) {
+      this.setState({
+        community: this.props.location.state
+      })
+    }
   }
 
   // 取消编辑，返回上一页
@@ -98,6 +100,17 @@ export default class RentAdd extends Component {
       }
     ])
   }
+  
+  handleItem = (key, value) => {
+    this.setState({
+      [key]: value
+    })
+  }
+
+  addHouse = () => {
+    console.log(this.state.price)
+    console.log(this.state.size)
+  }
 
   render() {
     const Item = List.Item
@@ -105,6 +118,7 @@ export default class RentAdd extends Component {
     const {
       community,
       price,
+      size,
       roomType,
       floor,
       oriented,
@@ -133,15 +147,19 @@ export default class RentAdd extends Component {
             arrow="horizontal"
             onClick={() => {
               // 控制路由跳转
-              history.push('/rent/search')
+              history.replace('/rent/search')
             }}
           >
             小区名称
           </Item>
-          <InputItem placeholder="请输入租金/月" extra="￥/月" value={price}>
+          <InputItem placeholder="请输入租金/月" extra="￥/月" onChange={(value) => {
+            this.handleItem('price', value)
+          }} value={price}>
             租&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;金
           </InputItem>
-          <InputItem placeholder="请输入建筑面积" extra="㎡">
+          <InputItem placeholder="请输入建筑面积" extra="㎡" onChange={(value) => {
+            this.handleItem('size', value)
+          }} value={size}>
             建筑面积
           </InputItem>
           <Picker data={roomTypeData} value={[roomType]} cols={1}>
