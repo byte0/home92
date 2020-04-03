@@ -7,6 +7,7 @@ import City from './views/city/index.js'
 import TestRenderProps from './views/test/index1.js'
 import MapTest from './views/map/index.js'
 import HouseDetail from './views/detail/index.js'
+import AuthCheck from './components/AuthCheck/index.js'
 
 function NotFound () {
   return <div>NotFound</div>
@@ -18,7 +19,7 @@ function App() {
       <Switch>
         <Redirect exact from='/' to='/home' />
         <Route path='/login' component={Login}/>
-        <Route path='/home' component={Home}/>
+        <AuthCheck path='/home' component={Home}/>
         <Route path='/city' component={City}/>
         <Route path='/map' component={MapTest}/>
         <Route path='/detail' component={HouseDetail}/>
