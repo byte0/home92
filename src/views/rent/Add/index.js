@@ -124,7 +124,10 @@ export default class RentAdd extends Component {
           <Item
             extra={community.name || '请输入小区名称'}
             arrow="horizontal"
-            onClick={() => history.replace('/rent/search')}
+            onClick={() => {
+              // 控制路由跳转
+              history.push('/rent/search')
+            }}
           >
             小区名称
           </Item>
