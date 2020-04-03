@@ -100,7 +100,7 @@ export default class RentAdd extends Component {
       }
     ])
   }
-  
+
   handleItem = (key, value) => {
     this.setState({
       [key]: value
@@ -126,7 +126,6 @@ export default class RentAdd extends Component {
       tempSlides,
       title
     } = this.state
-
     return (
       <div className={styles.root}>
         <NavBar
@@ -162,16 +161,21 @@ export default class RentAdd extends Component {
           }} value={size}>
             建筑面积
           </InputItem>
-          <Picker data={roomTypeData} value={[roomType]} cols={1}>
+          <Picker onChange={(value) => {
+            this.handleItem('roomType', value)
+          }} extra='请选择户型' data={roomTypeData} value={roomType} cols={1}>
             <Item arrow="horizontal">
               户&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;型
             </Item>
           </Picker>
-
-          <Picker data={floorData} value={[floor]} cols={1}>
+          <Picker onChange={(value) => {
+            this.handleItem('floor', value)
+          }} data={floorData} value={floor} cols={1}>
             <Item arrow="horizontal">所在楼层</Item>
           </Picker>
-          <Picker data={orientedData} value={[oriented]} cols={1}>
+          <Picker onChange={(value) => {
+            this.handleItem('oriented', value)
+          }} data={orientedData} value={oriented} cols={1}>
             <Item arrow="horizontal">
               朝&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;向
             </Item>
