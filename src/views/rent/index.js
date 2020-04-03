@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { NavBar } from 'antd-mobile'
+import { NavBar, Icon } from 'antd-mobile'
 
 import { Link } from 'react-router-dom'
 import request from '../../utils/request.js'
@@ -80,6 +80,13 @@ export default class Rent extends Component {
       <div className={styles.root}>
         <NavBar
           className={styles.navHeader}
+          rightContent={[
+            <Icon onClick={() => {
+              // 跳转到地图找房页面
+              this.props.history.push('/rent/add')
+            }} key="0" type="check-circle-o" style={{ marginRight: '6px' }} />
+          ]}
+          icon={<Icon type="left" />}
           mode="dark"
           onLeftClick={() => history.go(-1)}
         >
