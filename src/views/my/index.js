@@ -6,7 +6,7 @@ import { Grid, Button } from 'antd-mobile'
 // import { BASE_URL } from '../../utils'
 import { BASE_IMG_URL } from '../../utils/config.js'
 import request from '../../utils/request.js'
-import { getToken } from '../../utils/token.js'
+import { getToken, removeToken } from '../../utils/token.js'
 import styles from './index.module.css'
 
 // 菜单数据
@@ -49,6 +49,24 @@ export default class Profile extends Component {
     this.loadUserInfo()
   }
 
+  logOut = async () => {
+    // 实现退出功能：如果服务端不存储token，不需要调用后台接口；如果存储token需要调用接口
+    const res = await request({
+      method: 'post',
+      url: '/user/logout',
+      headers: {
+        Authorization: getToken()
+      }
+    })
+    if (res.status === 200) {
+      // 退出成功，清除token，清除info
+      removeToken()
+      this.setState({
+        info: null
+      })
+    }
+  }
+
   render() {
     const { history } = this.props
     const { info } = this.state
@@ -72,7 +90,7 @@ export default class Profile extends Component {
               { info?(<React.Fragment>
                 <div className={styles.name}>{info.nickname}</div>
                 <div className={styles.auth}>
-                  <span onClick={this.logout}>退出</span>
+                  <span onClick={this.logOut}>退出</span>
                 </div>
                 <div className={styles.edit}>
                   编辑个人资料
