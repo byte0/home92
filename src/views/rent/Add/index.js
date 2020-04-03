@@ -79,6 +79,13 @@ export default class RentAdd extends Component {
     }
   }
 
+  componentDidMount () {
+    // 选择小区名称
+    this.setState({
+      community: this.props.location.state
+    })
+  }
+
   // 取消编辑，返回上一页
   onCancel = () => {
     alert('提示', '放弃发布房源?', [

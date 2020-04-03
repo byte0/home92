@@ -22,7 +22,7 @@ export default class Search extends Component {
     const { tipsList } = this.state
 
     return tipsList.map(item => (
-      <li key={item.community} className={styles.tip}>
+      <li data-id={item.community} data-name={item.communityName} key={item.community} className={styles.tip}>
         {item.communityName}
       </li>
     ))
@@ -51,6 +51,12 @@ export default class Search extends Component {
     })
   }
 
+  handleJump = (e) => {
+    const {id, name} = e.target.dataset
+    // 跳回到发布房源表单页面并且携带参数
+    this.props.history.push('/rent/add', {id, name})
+  }
+
   render() {
     const { history } = this.props
     const { searchTxt } = this.state
@@ -68,7 +74,7 @@ export default class Search extends Component {
         />
 
         {/* 搜索提示列表 */}
-        <ul className={styles.tips}>{this.renderTips()}</ul>
+        <ul onClick={this.handleJump} className={styles.tips}>{this.renderTips()}</ul>
       </div>
     )
   }
