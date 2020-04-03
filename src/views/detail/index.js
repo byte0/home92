@@ -103,6 +103,17 @@ export default class HouseDetail extends Component {
     const id = this.props.location.state.id
     // 获取房屋数据
     this.getHouseDetail(id)
+    this.queryFavoriteFlag(id)
+  }
+
+  queryFavoriteFlag = async (id) => {
+    // 查询当前房源的状态
+    const res = await request({
+      url: 'user/favorites/' + id
+    })
+    this.setState({
+      isFavorite: res.body.isFavorite
+    })
   }
 
   /* 
