@@ -8,6 +8,9 @@ import TestRenderProps from './views/test/index1.js'
 import MapTest from './views/map/index.js'
 import HouseDetail from './views/detail/index.js'
 import AuthCheck from './components/AuthCheck/index.js'
+import Rent from './views/rent/index.js'
+import RentAdd from './views/rent/Add/index.js'
+import RentSearch from './views/rent/Search/index.js'
 
 function NotFound () {
   return <div>NotFound</div>
@@ -19,6 +22,10 @@ function App() {
       <Switch>
         <Redirect exact from='/' to='/home' />
         <Route path='/login' component={Login}/>
+        <AuthCheck path='/home' component={Home}/>
+        <AuthCheck path='/rent' component={Rent}/>
+        <AuthCheck path='/rent/add' component={RentAdd}/>
+        <AuthCheck path='/rent/search' component={RentSearch}/>
         <AuthCheck path='/home' component={Home}/>
         <Route path='/city' component={City}/>
         <Route path='/map' component={MapTest}/>

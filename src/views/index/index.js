@@ -101,10 +101,16 @@ class Index extends React.Component {
     }, {
       id: 4,
       title: '去出租',
-      img: nav4
+      img: nav4,
+      path: '/rent/add'
     }]
     const menuTag = menuData.map(item => (
-      <Flex.Item key={item.id}>
+      <Flex.Item onClick={() => {
+        // 点击菜单控制路由跳转
+        if (item.path) {
+          this.props.history.push(item.path)
+        }
+      }} key={item.id}>
         <img src={item.img} alt=""/>
         <p>{item.title}</p>
       </Flex.Item>
