@@ -138,7 +138,7 @@ export default class HouseDetail extends Component {
       ])
     */
   // 控制房源的收藏效果
-  handleFavorite = () => {
+  handleFavorite = async () => {
     // 先判断用户是否已经登录，如果没有登录就跳转到登录页面，如果登录了进行收藏
     // const token = sessionStorage.getItem('mytoken')
     const token = getToken()
@@ -154,6 +154,29 @@ export default class HouseDetail extends Component {
           }
         }
       ])
+    }
+    const { houseInfo, isFavorite } = this.state
+    // 判断当前房源是否已经收藏过
+    if (this.state.isFavorite) {
+      // 已经处于收藏状态，取消收藏
+      const res = await request({
+        method: 'delete',
+        url: 'user/favorites/' + houseInfo.houseCode
+      })
+      this.setState({
+        isFavorite: !isFavorite
+      })
+    } else {
+      // 尚未收藏，添加收藏
+      const res = await request({
+        method: 'post',
+        url: 'user/favorites/' + houseInfo.houseCode 
+      })
+      if (res.status === 200) {
+        this.setState({
+          isFavorite: !isFavorite
+        })
+      }
     }
   }
 
