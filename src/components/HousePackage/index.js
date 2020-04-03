@@ -83,7 +83,7 @@ export default class HousePackage extends Component {
       newSelectedNames = [...selectedNames, name]
     }
 
-    // 传递给父组件
+    // 把子组件的值传递给父组件
     this.props.onSelect(newSelectedNames)
 
     this.setState({

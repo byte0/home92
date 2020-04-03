@@ -190,6 +190,9 @@ export default class RentAdd extends Component {
           <InputItem
             placeholder="请输入标题（例如：整租 小区名 2室 5000元）"
             value={title}
+            onChange={(value) => {
+              this.handleItem('title', value)
+            }}
           />
         </List>
 
@@ -210,7 +213,12 @@ export default class RentAdd extends Component {
           renderHeader={() => '房屋配置'}
           data-role="rent-list"
         >
-          <HousePackge select />
+          {/*子组件向父组件传值*/}
+          <HousePackge select onSelect={(value) => {
+            this.setState({
+              supporting: value.json('|')
+            })
+          }}/>
         </List>
 
         <List
@@ -223,6 +231,9 @@ export default class RentAdd extends Component {
             placeholder="请输入房屋描述信息"
             autoHeight
             value={description}
+            onChange={(value) => {
+              this.handleItem('description', value)
+            }}
           />
         </List>
 
