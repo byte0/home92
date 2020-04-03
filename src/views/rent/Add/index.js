@@ -112,6 +112,14 @@ export default class RentAdd extends Component {
     console.log(this.state.size)
   }
 
+  handleImgs = (files, type, index) => {
+    // 处理图片的选择
+    console.log(files, type, index)
+    this.setState({
+      tempSlides: files
+    })
+  }
+
   render() {
     const Item = List.Item
     const { history } = this.props
@@ -203,6 +211,7 @@ export default class RentAdd extends Component {
         >
           <ImagePicker
             files={tempSlides}
+            onChange={this.handleImgs}
             multiple={true}
             className={styles.imgpicker}
           />
