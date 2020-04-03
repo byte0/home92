@@ -6,7 +6,7 @@ import { Grid, Button } from 'antd-mobile'
 // import { BASE_URL } from '../../utils'
 import { BASE_IMG_URL } from '../../utils/config.js'
 import request from '../../utils/request.js'
-import { getToken, removeToken } from '../../utils/token.js'
+import { removeToken } from '../../utils/token.js'
 import styles from './index.module.css'
 
 // 菜单数据
@@ -35,10 +35,10 @@ export default class Profile extends Component {
   loadUserInfo = async () => {
     // 加载用户相关信息
     const res = await request({
-      url: '/user',
-      headers: {
-        Authorization: getToken()
-      }
+      url: 'user'
+      // headers: {
+      //   Authorization: getToken()
+      // }
     })
     this.setState({
       info: res.body
@@ -53,10 +53,10 @@ export default class Profile extends Component {
     // 实现退出功能：如果服务端不存储token，不需要调用后台接口；如果存储token需要调用接口
     const res = await request({
       method: 'post',
-      url: '/user/logout',
-      headers: {
-        Authorization: getToken()
-      }
+      url: 'user/logout'
+      // headers: {
+      //   Authorization: getToken()
+      // }
     })
     if (res.status === 200) {
       // 退出成功，清除token，清除info
