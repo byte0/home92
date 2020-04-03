@@ -8,13 +8,13 @@ import {
   ImagePicker,
   TextareaItem,
   Modal,
-  NavBar
+  NavBar,
+  Toast
 } from 'antd-mobile'
 
 import HousePackge from '../../../components/HousePackage'
-
 import styles from './index.module.css'
-
+import request from '../../../utils/request.js'
 const alert = Modal.alert
 
 // 房屋类型
@@ -107,9 +107,29 @@ export default class RentAdd extends Component {
     })
   }
 
-  addHouse = () => {
-    console.log(this.state.price)
-    console.log(this.state.size)
+  addHouse = async () => {
+    // 提交表单
+    // 上传图片
+    const { tempSlides } = this.state
+    if (tempSlides.length <= 0) {
+      Toast.info('请选择图片', 1)
+    }
+    // 图片上传
+    const form = new FormData()
+    tempSlides.forEach(item => {
+      form.append('file', item.file)
+    })
+    const res = await request({
+      method: 'post',
+      url: 'houses/image',
+      data: form,
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
+
+    console.log(res)
+
   }
 
   handleImgs = (files, type, index) => {
