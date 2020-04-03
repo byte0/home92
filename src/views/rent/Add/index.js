@@ -110,7 +110,18 @@ export default class RentAdd extends Component {
   addHouse = async () => {
     // 提交表单
     // 上传图片
-    const { tempSlides } = this.state
+    const {
+      tempSlides,
+      title,
+      description,
+      oriented,
+      supporting,
+      price,
+      roomType,
+      size,
+      floor,
+      community
+    } = this.state
     if (tempSlides.length <= 0) {
       Toast.info('请选择图片', 1)
     }
@@ -127,9 +138,28 @@ export default class RentAdd extends Component {
         'Content-Type': 'multipart/form-data'
       }
     })
-
-    console.log(res)
-
+    
+    const houseImg = res.body.join('|')
+    const formRes = await request({
+      method: 'post',
+      url: 'user/houses',
+      data: {
+        houseImg,
+        title,
+        description,
+        oriented: oriented[0],
+        supporting,
+        price,
+        roomType:roomType[0],
+        size,
+        floor: floor[0],
+        community: community.id
+      }
+    })
+    if (formRes.status === 200) {
+      // 发布成功，跳转到列表页面
+      this.props.history.push('/rent')
+    }
   }
 
   handleImgs = (files, type, index) => {
@@ -245,7 +275,7 @@ export default class RentAdd extends Component {
           {/*子组件向父组件传值*/}
           <HousePackge select onSelect={(value) => {
             this.setState({
-              supporting: value.json('|')
+              supporting: value.join('|')
             })
           }}/>
         </List>

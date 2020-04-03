@@ -8,7 +8,7 @@ import NoHouse from '../../components/NoHouse'
 
 import styles from './index.module.css'
 
-const BASE_URL = 'http://localhost:8080'
+// const BASE_URL = 'http://localhost:8080'
 export default class Rent extends Component {
   state = {
     // 出租房屋列表
@@ -42,9 +42,11 @@ export default class Rent extends Component {
         <HouseItem
           key={item.houseCode}
           onClick={() => {
-            history.push(`/detail/${item.houseCode}`)
+            // history.push(`/detail/${item.houseCode}`)
+            // 采用编程式导航传递参数
+            history.push('/detail', {id: item.houseCode})
           }}
-          src={BASE_URL + item.houseImg}
+          houseImg={item.houseImg}
           title={item.title}
           desc={item.desc}
           tags={item.tags}
