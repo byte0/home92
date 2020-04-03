@@ -2,8 +2,7 @@ import React, { Component } from 'react'
 import { NavBar } from 'antd-mobile'
 
 import { Link } from 'react-router-dom'
-
-// import { API } from '../../utils/api'
+import request from '../../utils/request.js'
 import HouseItem from '../../components/HouseItem'
 import NoHouse from '../../components/NoHouse'
 
@@ -18,18 +17,14 @@ export default class Rent extends Component {
 
   // 获取已发布房源的列表数据
   async getHouseList() {
-    // const res = await API.get('/user/houses')
-    // // console.log(res.data.body)
-
-    // const { status, body } = res.data
-    // if (status === 200) {
-    //   this.setState({
-    //     list: body
-    //   })
-    // } else {
-    //   const { history } = this.props
-    //   history.replace('/login')
-    // }
+    const res = await request({
+      url: 'user/houses'
+    })
+    if (res.status === 200) {
+      this.setState({
+        list: res.body
+      })
+    }
   }
 
   componentDidMount() {

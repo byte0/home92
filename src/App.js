@@ -23,7 +23,7 @@ function App() {
         <Redirect exact from='/' to='/home' />
         <Route path='/login' component={Login}/>
         <AuthCheck path='/home' component={Home}/>
-        <AuthCheck path='/rent' component={Rent}/>
+        <AuthCheck exact path='/rent' component={Rent}/>
         <AuthCheck path='/rent/add' component={RentAdd}/>
         <AuthCheck path='/rent/search' component={RentSearch}/>
         <AuthCheck path='/home' component={Home}/>
