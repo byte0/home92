@@ -159,7 +159,7 @@ export default class HouseDetail extends Component {
     // 判断当前房源是否已经收藏过
     if (this.state.isFavorite) {
       // 已经处于收藏状态，取消收藏
-      const res = await request({
+      await request({
         method: 'delete',
         url: 'user/favorites/' + houseInfo.houseCode
       })

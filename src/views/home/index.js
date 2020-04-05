@@ -18,6 +18,17 @@ class Home extends React.Component {
     }
   }
 
+  componentDidMount () {
+    // 获取路由的路径
+    const path = this.props.location.pathname
+    // 获取二级路由的路径
+    const menuFlag = path.substr(path.lastIndexOf('/') + 1)
+    // 设置菜单高亮
+    this.setState({
+      selectedTab: menuFlag
+    })
+  }
+
   componentDidUpdate (prevProps) {
     // prevProps表示原来的数据
     // this.props表示最新的数据
@@ -64,9 +75,9 @@ class Home extends React.Component {
         selected={this.state.selectedTab === item.key}
         onPress={() => {
           // 控制菜单的点击切换
-          this.setState({
-            selectedTab: item.key,
-          });
+          // this.setState({
+          //   selectedTab: item.key,
+          // });
           // 通过编程式导航方式控制路由跳转
           this.props.history.push('/home/' + item.key)
         }}
