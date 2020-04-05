@@ -12,6 +12,7 @@ const AuthCheck = React.lazy(() => import('./components/AuthCheck/index.js'))
 const Rent = React.lazy(() => import('./views/rent/index.js'))
 const RentAdd = React.lazy(() => import('./views/rent/Add/index.js'))
 const RentSearch = React.lazy(() => import('./views/rent/Search/index.js'))
+const TestProxy = React.lazy(() => import('./views/test/test-proxy.js'))
 
 function NotFound () {
   return <div>NotFound</div>
@@ -33,6 +34,7 @@ function App() {
           <Route path='/map' component={MapTest}/>
           <Route path='/detail' component={HouseDetail}/>
           <Route path='/rp' component={TestRenderProps}/>
+          <Route path='/proxy' component={TestProxy}/>
           <Route component={NotFound}/>
         </Switch>
       </Suspense>
