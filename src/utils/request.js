@@ -26,7 +26,7 @@ export default ({method = 'get', url, data, params, headers}) => {
   // return的结果是Promise实例对象
   return axios({
     // 请求基准路径
-    baseURL: 'http://api-haoke-dev.itheima.net',
+    baseURL: process.env.REACT_APP_APIBASEURL,
     // 请求方式（默认是get）
     method: method,
     // 请求地址

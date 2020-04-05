@@ -3,7 +3,9 @@
 */
 import request from './request.js'
 // 后台图片的基准路径
-export const BASE_IMG_URL = 'http://api-haoke-dev.itheima.net'
+// export const BASE_IMG_URL = 'http://api-haoke-dev.itheima.net'
+// 通过环境变量配置基准图片地址
+export const BASE_IMG_URL = process.env.REACT_APP_IMGBASEURL
 
 // 封装通用的获取定位信息的方法
 export const getCurrentCity = () => {
