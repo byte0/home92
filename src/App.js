@@ -1,16 +1,17 @@
-import React from 'react';
+import React, {Suspense} from 'react';
 import './App.css';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
-import Home from './views/home/index.js'
-import Login from './views/login/index.js'
-import City from './views/city/index.js'
-import TestRenderProps from './views/test/index1.js'
-import MapTest from './views/map/index.js'
-import HouseDetail from './views/detail/index.js'
-import AuthCheck from './components/AuthCheck/index.js'
-import Rent from './views/rent/index.js'
-import RentAdd from './views/rent/Add/index.js'
-import RentSearch from './views/rent/Search/index.js'
+
+const Home = React.lazy(() => import('./views/home/index.js'))
+const Login = React.lazy(() => import('./views/login/index.js'))
+const City = React.lazy(() => import('./views/city/index.js'))
+const TestRenderProps = React.lazy(() => import('./views/test/index1.js'))
+const MapTest = React.lazy(() => import('./views/map/index.js'))
+const HouseDetail = React.lazy(() => import('./views/detail/index.js'))
+const AuthCheck = React.lazy(() => import('./components/AuthCheck/index.js'))
+const Rent = React.lazy(() => import('./views/rent/index.js'))
+const RentAdd = React.lazy(() => import('./views/rent/Add/index.js'))
+const RentSearch = React.lazy(() => import('./views/rent/Search/index.js'))
 
 function NotFound () {
   return <div>NotFound</div>
@@ -19,20 +20,22 @@ function NotFound () {
 function App() {
   return (
     <BrowserRouter>
-      <Switch>
-        <Redirect exact from='/' to='/home' />
-        <Route path='/login' component={Login}/>
-        <AuthCheck path='/home' component={Home}/>
-        <AuthCheck exact path='/rent' component={Rent}/>
-        <AuthCheck path='/rent/add' component={RentAdd}/>
-        <AuthCheck path='/rent/search' component={RentSearch}/>
-        <AuthCheck path='/home' component={Home}/>
-        <Route path='/city' component={City}/>
-        <Route path='/map' component={MapTest}/>
-        <Route path='/detail' component={HouseDetail}/>
-        <Route path='/rp' component={TestRenderProps}/>
-        <Route component={NotFound}/>
-      </Switch>
+      <Suspense fallback={<div>loading...</div>}>
+        <Switch>
+          <Redirect exact from='/' to='/home' />
+          <Route path='/login' component={Login}/>
+          <AuthCheck path='/home' component={Home}/>
+          <AuthCheck exact path='/rent' component={Rent}/>
+          <AuthCheck path='/rent/add' component={RentAdd}/>
+          <AuthCheck path='/rent/search' component={RentSearch}/>
+          <AuthCheck path='/home' component={Home}/>
+          <Route path='/city' component={City}/>
+          <Route path='/map' component={MapTest}/>
+          <Route path='/detail' component={HouseDetail}/>
+          <Route path='/rp' component={TestRenderProps}/>
+          <Route component={NotFound}/>
+        </Switch>
+      </Suspense>
     </BrowserRouter>
   );
 }
