@@ -13,6 +13,7 @@ const Rent = React.lazy(() => import('./views/rent/index.js'))
 const RentAdd = React.lazy(() => import('./views/rent/Add/index.js'))
 const RentSearch = React.lazy(() => import('./views/rent/Search/index.js'))
 const TestProxy = React.lazy(() => import('./views/test/test-proxy.js'))
+const TestPubSub = React.lazy(() => import('./views/test/pub-sub.js'))
 
 function NotFound () {
   return <div>NotFound</div>
@@ -35,6 +36,7 @@ function App() {
           <Route path='/detail' component={HouseDetail}/>
           <Route path='/rp' component={TestRenderProps}/>
           <Route path='/proxy' component={TestProxy}/>
+          <Route path='/pubsub' component={TestPubSub}/>
           <Route component={NotFound}/>
         </Switch>
       </Suspense>
